@@ -27,7 +27,7 @@ You like what you see on the map. Then you can go ahead and export the map as an
 All processing of the data happens on your device in the browser. The CSV files you select to view, filter and export are not uploaded to any server. The location permission is optional and only used to center the map based on your location. Your location is not shared with anyone!
 
 ## FAQ
-Some frequently asked questions and answers about the Cell Data Viewer project can be found in the Wiki section of this repository: [Cell Data Viewer Wiki](https://github.com/NerdTech-aut/Cell-Data-Viewer/wiki)
+Some frequently asked questions and answers about the Cell Data Viewer project can be found in the Wiki section of this repository: [Cell Data Viewer Wiki](https://github.com/NerdTech-one/Cell-Data-Viewer/wiki)
 
 ## Third-party software and services
 The following third-party software and services are used in this project:
@@ -35,7 +35,7 @@ The following third-party software and services are used in this project:
 - [Leaflet](https://leafletjs.com/) from [Volodymyr Agafonkin](https://agafonkin.com/) and contributors under [BSD 2-Clause License](https://github.com/Leaflet/Leaflet/blob/main/LICENSE)
 - [OpenStreetMap](https://www.openstreetmap.org/about) from the [OpenStreetMap Foundation](https://osmfoundation.org/) and contributors
 - Satellite images by [ESRI](https://www.esri.com/en-us/home) and partners
-- my own [arfcn-to-frequency-files](https://github.com/NerdTech-aut/arfcn-to-frequency-files) repository based on ETSI and 3GPP documents
+- my own [arfcn-to-frequency-files](https://github.com/NerdTech-one/arfcn-to-frequency-files) repository based on ETSI and 3GPP documents
 - [jsDelivr](https://www.jsdelivr.com/) CDN service for external resources from Volentio JSD Limited
 - [GitHub Pages](https://docs.github.com/en/pages) for the hosting of the web tool and directly associated resources from GitHub Inc
 

@@ -112,7 +112,7 @@
         </h1>
         <h2 class="text-secondary m-0 small-text"><a href="https://nerdtech.one" target="_blank" class=" text-decoration-none">by NerdTech</a></h2><!-- gray text with no margin and a custom small text -->
       </div>
-      <a href="https://github.com/NerdTech-aut/Cell-Data-Viewer/" class="text-decoration-none text-secondary cursor-pointer" target="_blank"> <!-- link with no text decoration, gray text and default cursor override -->
+      <a href="https://github.com/NerdTech-one/Cell-Data-Viewer/" class="text-decoration-none text-secondary cursor-pointer" target="_blank"> <!-- link with no text decoration, gray text and default cursor override -->
         <span><i class="bi bi-file-earmark-code"></i> <!-- bootstrap code icon --> GitHub</span>
       </a>
     </div>
@@ -135,7 +135,7 @@
                 <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFile" accept=".csv" autocomplete="off" multiple/> <!-- styled file picker button with a transparent background and light text -->
               </div>
               <div class="mb-3 d-flex justify-content-between align-items-center"> <!-- element with 1rem margin bottom which is a flexbox which pushes the two items inside apart and vertically centers the items -->
-                <a id="btnHelp" class="btn btn-sm btn-outline-info" href="https://github.com/NerdTech-aut/Cell-Data-Viewer/wiki" target="_blank">Help</a> <!-- link which is styled as a compact outlined info button -->
+                <a id="btnHelp" class="btn btn-sm btn-outline-info" href="https://github.com/NerdTech-one/Cell-Data-Viewer/wiki" target="_blank">Help</a> <!-- link which is styled as a compact outlined info button -->
                 <span class="badge badge-pill text-bg-secondary py-2 small-text cursor-default"> <!-- points counter as a badge pill with gray secondary background, 0.5rem margin top and bottom and custom font size as well as a cursor type override to default -->
                   <span id="visibleCount">0</span> / <span id="totalCount">0</span> points
                 </span>
@@ -811,15 +811,15 @@
     let nrBandsSupport = [];
     let mapTemplate = "";
 
-    loadData("https://cdn.jsdelivr.net/gh/NerdTech-aut/arfcn-to-frequency-files@refs/heads/main/EUTRA_operating_bands_frequencies_arfcn-numbers.json")
+    loadData("https://cdn.jsdelivr.net/gh/NerdTech-one/arfcn-to-frequency-files@refs/heads/main/EUTRA_operating_bands_frequencies_arfcn-numbers.json")
       .then(data => { eutraBands = data || []; })
       .catch(console.error);
 
-    loadData("https://cdn.jsdelivr.net/gh/NerdTech-aut/arfcn-to-frequency-files@refs/heads/main/NR_operating_bands_frequencies_duplex-types_arfcn-numbers.json")
+    loadData("https://cdn.jsdelivr.net/gh/NerdTech-one/arfcn-to-frequency-files@refs/heads/main/NR_operating_bands_frequencies_duplex-types_arfcn-numbers.json")
       .then(data => { nrBands = data || []; })
       .catch(console.error);
 
-    loadData("https://cdn.jsdelivr.net/gh/NerdTech-aut/arfcn-to-frequency-files@refs/heads/main/NR-ARFCN_parameters_for_the_global_frequency_raster.json")
+    loadData("https://cdn.jsdelivr.net/gh/NerdTech-one/arfcn-to-frequency-files@refs/heads/main/NR-ARFCN_parameters_for_the_global_frequency_raster.json")
       .then(data => { nrBandsSupport = data || []; })
       .catch(console.error);
 
