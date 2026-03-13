@@ -1483,7 +1483,16 @@
             <th colspan="2"><a href="https://www.google.com/maps/search/${p.Latitude},+${p.Longitude}" target="_blank">View on Google Maps</a></th>
           </tr>
           <tr>
+            <th colspan="2"><a href="https://earth.google.com/web/@${p.Latitude},${p.Longitude},10000d" target="_blank">View on Google Earth</a></th>
+          </tr>
+          <tr>
+            <th colspan="2"><a href="https://maps.apple.com/frame?center=${p.Latitude}%2C${p.Longitude}" target="_blank">View on Apple Maps</a></th>
+          </tr>
+          <tr>
             <th colspan="2"><a href="https://www.openstreetmap.org/#map=19/${p.Latitude}/${p.Longitude}" target="_blank">View on OpenStreetMap</a></th>
+          </tr>
+          <tr>
+            <th colspan="2"><a href="https://livingatlas.arcgis.com/wayback/#mapCenter=${p.Longitude}%2C${p.Latitude}%2C20" target="_blank">View on World Imagery Wayback</a></th>
           </tr>
           <tr>
             <th colspan="2"><a href="https://www.cellmapper.net/map?MCC=${p.MCC}&MNC=${p.MNC}&type=${p.Type}&latitude=${p.Latitude}&longitude=${p.Longitude}&zoom=15.3" target="_blank">View on CellMapper</a></th>
