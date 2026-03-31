@@ -82,6 +82,10 @@
       vertical-align: middle;
     }
 
+    .leaflet-popup-content {
+      margin: 0;
+    }
+
     .accordion-button:not(.collapsed) {
       color: inherit;
       background-color: inherit;
@@ -1432,7 +1436,7 @@
 
         //create the popup html code
         const popupHtml = 
-        `<table class="table table-sm table-striped">
+        `<table class="table table-sm table-striped mt-4 mb-0">
           <tr>
             <th scope="row">PLMN</th>      <td>${p.PLMN}</td>
           </tr>
@@ -1494,8 +1498,8 @@
           <tr>
             <th colspan="2"><a href="https://livingatlas.arcgis.com/wayback/#mapCenter=${p.Longitude}%2C${p.Latitude}%2C20" target="_blank">View on World Imagery Wayback</a></th>
           </tr>
-          <tr>
-            <th colspan="2"><a href="https://www.cellmapper.net/map?MCC=${p.MCC}&MNC=${p.MNC}&type=${p.Type}&latitude=${p.Latitude}&longitude=${p.Longitude}&zoom=15.3" target="_blank">View on CellMapper</a></th>
+          <tr class="rounded-bottom-4 border-bottom-0">
+            <th colspan="2" class="rounded-bottom-4 border-bottom-0"><a href="https://www.cellmapper.net/map?MCC=${p.MCC}&MNC=${p.MNC}&type=${p.Type}&latitude=${p.Latitude}&longitude=${p.Longitude}&zoom=15.3" target="_blank">View on CellMapper</a></th>
           </tr>
         </table>`;
 
