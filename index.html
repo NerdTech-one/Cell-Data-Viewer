@@ -857,7 +857,8 @@
         ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #008000;"></span> -85 dBm and above</span>']: L.layerGroup(),
         ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #90EE90;"></span> between -86 dBm and -100 dBm</span>']: L.layerGroup(),
         ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #FFCCCB;"></span> between -101 dBm and -115 dBm</span>']: L.layerGroup(),
-        ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #FF0000;"></span> -116 dBm and below</span>']: L.layerGroup()
+        ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #FF0000;"></span> -116 dBm and below</span>']: L.layerGroup(),
+        ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #808080;"></span> Unknown</span>']: L.layerGroup()
       };
 
       const layersControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
@@ -921,9 +922,14 @@
 
       if (lines.length == 0) return;
 
+      var parsedLines = 0;
+      var additionalLines = 0;
+
       if (lines[0].split(",").length == headersCM.length) { //for CellMapper
         //iterate over all the lines
         lines.forEach(line => {
+          parsedLines++;
+
           //split the line at the separator
           const cols = line.split(",");
           //when the line does not have the expected amount of columns skip the rest of the run
@@ -981,6 +987,8 @@
       } else if (lines[0].split(";").length == headersGMP.length && lines[0].split(";").every(h => headersGMP.includes(h))) { //for G-MoN Pro
         //iterate over all the lines except the first one
         lines.slice(1).forEach(line => {
+          parsedLines++;
+
           //split the line at the separator
           const cols = line.split(";");
           //when the line does not have the expected amount of columns skip the rest of the run
@@ -1009,8 +1017,6 @@
           row.NB = (!invalidValues.includes(row.NB)) ? row.NB : "Unknown";
           //update ARFCN entry if value is invalid
           row.ARFCN = (!invalidValues.includes(row.ARFCN)) ? row.ARFCN : "Unknown";
-          //update PCI entry if value is invalid
-          row.PCI = (!invalidValues.includes(row.PCI)) ? row.PCI : "Unknown";
           //update Altitude entry if value is invalid
           row.Altitude = (!invalidValues.includes(row.Altitude)) ? row.Altitude : "Unknown";
           //update Bandwidths entry if value is invalid
@@ -1038,13 +1044,32 @@
           row.Timestamp = `${row.DATE} ${row.TIME}`
           //create a new Source entry
           row.Source = "G-MoN Pro";
-
           //add the finished row dict/json to the rows list
           rows.push(row);
+
+          //create a new entry for 5G NSA when System is 4 and NR_SS_RSRP value is not invalid by copying the current row and updating the necessary entries
+          if (row.SYSTEM === "4" && ((!invalidValues.includes(row.NR_SS_RSRP))) || (!invalidValues.includes(row.NARFCN))) {
+            const row5GNSA = JSON.parse(JSON.stringify(row));
+            row5GNSA.LAC = "Unknown";
+            row5GNSA.Cell = "Unknown";
+            row5GNSA.PCI = "Unknown";
+            row5GNSA.NB = "Unknown";
+            row5GNSA.TypeSubtype = "NR-NSA";
+            row5GNSA.ARFCN = (!invalidValues.includes(row.NARFCN)) ? row.NARFCN : "Unknown";
+            row5GNSA.Bandwidths = "Unknown";
+            row5GNSA.Band = getBandNumber(row5GNSA.ARFCN, "NR");
+            row5GNSA.Frequency = calculateFrequency(row5GNSA.ARFCN, "NR");
+            row5GNSA.Signal = (!invalidValues.includes(row.NR_SS_RSRP)) ? row5GNSA.NR_SS_RSRP : "Unknown";
+            row5GNSA.Color = determineMarkerColor(row5GNSA.Signal);
+            rows.push(row5GNSA);
+            additionalLines++;
+          }
         });
       } else if (lines[0].split(",").length == headersTC.length) { //for Tower Collector
         //iterate over all the lines except the first one
         lines.slice(1).forEach(line => {
+          parsedLines++;
+
           //split the line at the separator
           const cols = line.split(",");
           //when the line does not have the expected amount of columns skip the rest of the run
@@ -1095,7 +1120,10 @@
           rows.push(row);
         });
       }
-      console.log(`Parsed ${rows.length} rows from CSV`);
+      console.log(`Parsed ${parsedLines} rows from CSV`);
+      console.log(`Keeping ${rows.length - additionalLines} rows after parsing and cleaning`);
+      console.log(`Added ${additionalLines} additional rows based on 5G NSA logic`);
+      console.log(`Total ${rows.length} rows after parsing, cleaning, and adding additional rows`);
       return rows;
     }
 
@@ -1182,7 +1210,9 @@
     }
 
     function determineMarkerColor(signal) {
-      if (signal >= -85) {
+      if (signal === "Unknown") {
+        return "#808080";
+      } else if (signal >= -85) {
         return "#008000";
       } else if (signal >= -100) {
         return "#90EE90";
@@ -1195,8 +1225,7 @@
 
     function updateFilterOptions() {
       //Sets are used because they are like lists but have the advantage that duplicates are ignored
-      
-      filtered = allPoints
+      filtered = allPoints;
       const plmnSet = new Set();
       const typeSet = new Set();
       const bandSet = new Set();
@@ -1290,7 +1319,7 @@
       const ul = document.getElementById(idBase + "UL");
       const search = document.getElementById(idBase + "Search");
       const selectedSpan = document.getElementById(idBase + "Selected");
-      const noResults = document.getElementById(idBase + "NoResults");
+      const noResultsEntry = document.getElementById(idBase + "NoResults");
       const btn = document.getElementById(idBase + "Btn");
 
       //with a.dropdown-item[data-value] search and NoResults are excluded from the query 
@@ -1307,11 +1336,6 @@
         //when at least one value is not a number use string comparison
         return a.localeCompare(b);
       });
-
-      //get the all entry which is the first <li> with data-value=""
-      const allEntry = ul.querySelector('a.dropdown-item[data-value=""]');
-      //get the no result entry
-      const noResultEntry = allEntry.parentElement.nextSibling;
       
       //iterate over the sortedFilters list
       sortedFilters.forEach(sortedFilter => {
@@ -1329,7 +1353,7 @@
         //add the link element to the list element
         li.appendChild(a);
         //add the list element to the list before the no result entry
-        ul.insertBefore(li, noResultEntry);
+        ul.insertBefore(li, noResultsEntry);
       });
 
       //remove previously attached click handlers on dropdown items
@@ -1398,7 +1422,7 @@
           //update dropdown box text or reset it to all when the all element was selected
           selectedSpan.textContent = val ? val : 'All';
           //update the no results item to not visible when the all item was selected
-          if (!val) noResults.classList.replace('d-block', 'd-none');
+          if (!val) noResultsEntry.classList.replace('d-block', 'd-none');
 
           updateFilterOptions();
           applyFilters();
@@ -1410,7 +1434,7 @@
       //clear the search box
       search.value = '';
       //set the no results item to invisible
-      noResults.classList.replace('d-block', 'd-none');
+      noResultsEntry.classList.replace('d-block', 'd-none');
     }
 
     function applyFilters() {
