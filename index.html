@@ -105,6 +105,28 @@
     #themeToggle label {
       display: flex;
     }
+
+    @keyframes dropzone-pulse {
+      0% {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+      }
+      50% {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.4rem rgba(13, 110, 253, 0.6);
+      }
+      100% {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+      }
+    }
+
+    .file-drop-focus {
+      outline: 0 !important;
+      border-color: #0d6efd !important;
+      animation: dropzone-pulse 1.5s infinite ease-in-out !important;
+      transition: all 0.2s ease-in-out; 
+    }
   </style>
 </head>
 <body class="d-flex flex-column" data-bs-theme="dark"> <!-- body with a dark color theme as a flexible column -->
@@ -135,18 +157,18 @@
             <div class="p-3">
               <h5 class="card-title mb-3 d-none d-md-block">Data & Filters</h5>  <!-- title of the card with 1rem margin bottom and only visible for screen-width >= 768px -->
               <div class="mb-3"> <!-- element with 1rem margin bottom -->
-                <label for="csvFile" class="form-label text-secondary small-text text-uppercase">Select CSV <a id="csvTooltip" href="" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, G-MoN Pro & Tower Collector - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></a></label> <!-- styled label for the CSV file picker button with a lighter text color, smaller text size and uppercase text-->
-                <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFile" accept=".csv" autocomplete="off" multiple/> <!-- styled file picker button with a transparent background and light text -->
+                <label for="csvFiles" class="form-label text-secondary small-text">SELECT OR DROP CSV FILES <a id="csvTooltip" href="" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, G-MoN Pro & Tower Collector - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></a></label> <!-- styled label for the CSV file picker button with a lighter text color, smaller text size and uppercase text-->
+                <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFiles" accept=".csv" autocomplete="off" multiple/> <!-- styled file picker button with a transparent background and light text -->
               </div>
               <div class="mb-3 d-flex justify-content-between align-items-center"> <!-- element with 1rem margin bottom which is a flexbox which pushes the two items inside apart and vertically centers the items -->
                 <a id="btnHelp" class="btn btn-sm btn-outline-info" href="https://github.com/NerdTech-one/Cell-Data-Viewer/wiki" target="_blank">Help</a> <!-- link which is styled as a compact outlined info button -->
                 <span class="badge badge-pill text-bg-secondary py-2 small-text cursor-default"> <!-- points counter as a badge pill with gray secondary background, 0.5rem margin top and bottom and custom font size as well as a cursor type override to default -->
-                  <span id="visibleCount">0</span> / <span id="totalCount">0</span> points
+                  <span id="visibleCount">0</span> / <span id="totalCount">0</span> Points
                 </span>
               </div>
               <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase">PLMN</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">PLMN</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterPlmn"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterPlmnBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterPlmnSelected">All</span> <!-- default button text -->
@@ -167,7 +189,7 @@
                   </div>
                 </div>
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase">Type</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">TYPE</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterType"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterTypeBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterTypeSelected">All</span> <!-- default button text -->
@@ -190,7 +212,7 @@
               </div>
               <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase">Band</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">BAND</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterBand"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterBandBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterBandSelected">All</span> <!-- default button text -->
@@ -211,7 +233,7 @@
                   </div>
                 </div>
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase">Frequency</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">FREQUENCY</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterFrequency"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterFrequencyBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterFrequencySelected">All</span> <!-- default button text -->
@@ -234,7 +256,7 @@
               </div>
               <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase" >NB</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">NB</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterNb"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterNbBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterNbSelected">All</span> <!-- default button text -->
@@ -255,7 +277,7 @@
                   </div>
                 </div>
                 <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text text-uppercase">Cell</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
+                  <label class="form-label text-secondary small-text">CELL</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
                   <div class="dropdown" id="filterCell"> <!-- styled dropdown -->
                     <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterCellBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
                       <span id="filterCellSelected">All</span> <!-- default button text -->
@@ -756,6 +778,8 @@
     //set the theme on load
     updateTheme(savedTheme, savedTheme === 'light', savedTheme === 'dark');
 
+    let dragCounter = 0;
+
     const filterPlmnSelected = document.getElementById('filterPlmnSelected');
     const filterTypeSelected = document.getElementById('filterTypeSelected');
     const filterBandSelected = document.getElementById('filterBandSelected');
@@ -770,7 +794,7 @@
     const collapseIcon = document.getElementById("collapseIcon");
     const cardBody = document.getElementById('filtersCardBody');
 
-    const csvFile = document.getElementById("csvFile");
+    const csvFiles = document.getElementById("csvFiles");
     const btnClearFilters = document.getElementById("btnClearFilters");
     const btnSaveMap = document.getElementById('btnSaveMap');
     const btnDownload = document.getElementById('btnDownload');
@@ -1700,7 +1724,7 @@
     });
 
     //csv uploader function
-    csvFile.addEventListener("change", async event => {
+    csvFiles.addEventListener("change", async event => {
       //get the new file
       const files = Array.from(event.target.files);
       //when the new file is empty but there was another file selected previously
@@ -1713,7 +1737,7 @@
           dataTransfer.items.add(previousFile);
         }
         //assign the files in the dataTransfer object to the file-input element which overrides that there is no file selected
-        csvFile.files = dataTransfer.files;
+        csvFiles.files = dataTransfer.files;
       }
       //get the filenames but if now no files were selected and there previously were one or more files selected keep the filenames of the previously selected files
       previousFiles = (files.length > 0) ? files : (previousFiles.length > 0 ? previousFiles : []);
@@ -1768,6 +1792,47 @@
         //start reading the file as text which triggers the onload event once the content is read
         reader.readAsText(file);
       });
+    }
+
+    bodyElement.addEventListener('dragenter', event => {
+      dragCounter++;
+    });
+
+    bodyElement.addEventListener('dragover', event => {
+      event.preventDefault();
+      if (event.dataTransfer.types.includes('Files')) {
+        if (checkFileTypes(event.dataTransfer.items)) {
+          csvFiles.classList.add('file-drop-focus');
+          if (event.target === csvFiles) {
+            event.dataTransfer.dropEffect = 'copy';
+          } else {
+            event.dataTransfer.dropEffect = 'none';
+          }
+        } else {
+          event.dataTransfer.dropEffect = 'none';
+        }
+      } else {
+        event.dataTransfer.dropEffect = 'none';
+      }
+    });
+
+    bodyElement.addEventListener('dragleave', () => {
+      dragCounter--;
+      
+      if (dragCounter === 0) {
+        csvFiles.classList.remove('file-drop-focus');
+      }
+    });
+
+    bodyElement.addEventListener('drop', event => {
+      if (!event.relatedTarget) {
+        dragCounter = 0;
+        csvFiles.classList.remove('file-drop-focus');
+      }
+    });
+
+    function checkFileTypes(items) {
+      return Array.from(items).every(i => i.kind === 'file' && ['text/csv'].includes(i.type));
     }
 
     //function to clear all filters on button click
