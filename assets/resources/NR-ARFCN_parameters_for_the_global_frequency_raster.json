@@ -1,0 +1,29 @@
+[
+    {
+        "freq_low_mHz": "0",
+        "freq_high_mHz": "3000",
+        "delta_freq_global_kHz": "5",
+        "freq_ref_offs_mHz": "0",
+        "n_ref-offs": "0",
+        "n_ref_low": "0",
+        "n_ref_high": "599999"
+    },
+    {
+        "freq_low_mHz": "3000",
+        "freq_high_mHz": "24250",
+        "delta_freq_global_kHz": "15",
+        "freq_ref_offs_mHz": "3000",
+        "n_ref-offs": "600000",
+        "n_ref_low": "600000",
+        "n_ref_high": "2016666"
+    },
+    {
+        "freq_low_mHz": "24250",
+        "freq_high_mHz": "100000",
+        "delta_freq_global_kHz": "60",
+        "freq_ref_offs_mHz": "24250.08",
+        "n_ref-offs": "2016667",
+        "n_ref_low": "2016667",
+        "n_ref_high": "3279165"
+    }
+]
