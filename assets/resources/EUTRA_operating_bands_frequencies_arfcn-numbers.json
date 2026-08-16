@@ -1,6 +1,7 @@
 [
     {
         "eutra_operating_band": "1",
+        "dl_freq_marketing_mHz": "2100",
         "dl_freq_low_mHz": "2110",
         "n_offs_dl": "0",
         "dl_arfcn_low": "0",
@@ -12,6 +13,7 @@
     },
     {
         "eutra_operating_band": "2",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1930",
         "n_offs_dl": "600",
         "dl_arfcn_low": "600",
@@ -23,6 +25,7 @@
     },
     {
         "eutra_operating_band": "3",
+        "dl_freq_marketing_mHz": "1800",
         "dl_freq_low_mHz": "1805",
         "n_offs_dl": "1200",
         "dl_arfcn_low": "1200",
@@ -34,6 +37,7 @@
     },
     {
         "eutra_operating_band": "4",
+        "dl_freq_marketing_mHz": "1700",
         "dl_freq_low_mHz": "2110",
         "n_offs_dl": "1950",
         "dl_arfcn_low": "1950",
@@ -45,6 +49,7 @@
     },
     {
         "eutra_operating_band": "5",
+        "dl_freq_marketing_mHz": "850",
         "dl_freq_low_mHz": "869",
         "n_offs_dl": "2400",
         "dl_arfcn_low": "2400",
@@ -56,6 +61,7 @@
     },
     {
         "eutra_operating_band": "6",
+        "dl_freq_marketing_mHz": "800",
         "dl_freq_low_mHz": "875",
         "n_offs_dl": "2650",
         "dl_arfcn_low": "2650",
@@ -67,6 +73,7 @@
     },
     {
         "eutra_operating_band": "7",
+        "dl_freq_marketing_mHz": "2600",
         "dl_freq_low_mHz": "2620",
         "n_offs_dl": "2750",
         "dl_arfcn_low": "2750",
@@ -78,6 +85,7 @@
     },
     {
         "eutra_operating_band": "8",
+        "dl_freq_marketing_mHz": "900",
         "dl_freq_low_mHz": "925",
         "n_offs_dl": "3450",
         "dl_arfcn_low": "3450",
@@ -89,6 +97,7 @@
     },
     {
         "eutra_operating_band": "9",
+        "dl_freq_marketing_mHz": "1800",
         "dl_freq_low_mHz": "1844.9",
         "n_offs_dl": "3800",
         "dl_arfcn_low": "3800",
@@ -100,6 +109,7 @@
     },
     {
         "eutra_operating_band": "10",
+        "dl_freq_marketing_mHz": "1700",
         "dl_freq_low_mHz": "2110",
         "n_offs_dl": "4150",
         "dl_arfcn_low": "4150",
@@ -111,6 +121,7 @@
     },
     {
         "eutra_operating_band": "11",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1475.9",
         "n_offs_dl": "4750",
         "dl_arfcn_low": "4750",
@@ -122,6 +133,7 @@
     },
     {
         "eutra_operating_band": "12",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "729",
         "n_offs_dl": "5010",
         "dl_arfcn_low": "5010",
@@ -133,6 +145,7 @@
     },
     {
         "eutra_operating_band": "13",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "746",
         "n_offs_dl": "5180",
         "dl_arfcn_low": "5180",
@@ -144,6 +157,7 @@
     },
     {
         "eutra_operating_band": "14",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "758",
         "n_offs_dl": "5280",
         "dl_arfcn_low": "5280",
@@ -155,6 +169,7 @@
     },
     {
         "eutra_operating_band": "17",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "734",
         "n_offs_dl": "5730",
         "dl_arfcn_low": "5730",
@@ -166,6 +181,7 @@
     },
     {
         "eutra_operating_band": "18",
+        "dl_freq_marketing_mHz": "850",
         "dl_freq_low_mHz": "860",
         "n_offs_dl": "5850",
         "dl_arfcn_low": "5850",
@@ -177,6 +193,7 @@
     },
     {
         "eutra_operating_band": "19",
+        "dl_freq_marketing_mHz": "850",
         "dl_freq_low_mHz": "875",
         "n_offs_dl": "6000",
         "dl_arfcn_low": "6000",
@@ -188,6 +205,7 @@
     },
     {
         "eutra_operating_band": "20",
+        "dl_freq_marketing_mHz": "800",
         "dl_freq_low_mHz": "791",
         "n_offs_dl": "6150",
         "dl_arfcn_low": "6150",
@@ -199,6 +217,7 @@
     },
     {
         "eutra_operating_band": "21",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1495.9",
         "n_offs_dl": "6450",
         "dl_arfcn_low": "6450",
@@ -210,6 +229,7 @@
     },
     {
         "eutra_operating_band": "22",
+        "dl_freq_marketing_mHz": "3500",
         "dl_freq_low_mHz": "3510",
         "n_offs_dl": "6600",
         "dl_arfcn_low": "6600",
@@ -221,6 +241,7 @@
     },
     {
         "eutra_operating_band": "23",
+        "dl_freq_marketing_mHz": "2000",
         "dl_freq_low_mHz": "2180",
         "n_offs_dl": "7500",
         "dl_arfcn_low": "7500",
@@ -232,6 +253,7 @@
     },
     {
         "eutra_operating_band": "24",
+        "dl_freq_marketing_mHz": "1600",
         "dl_freq_low_mHz": "1525",
         "n_offs_dl": "7700",
         "dl_arfcn_low": "7700",
@@ -243,6 +265,7 @@
     },
     {
         "eutra_operating_band": "25",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1930",
         "n_offs_dl": "8040",
         "dl_arfcn_low": "8040",
@@ -254,6 +277,7 @@
     },
     {
         "eutra_operating_band": "26",
+        "dl_freq_marketing_mHz": "850",
         "dl_freq_low_mHz": "859",
         "n_offs_dl": "8690",
         "dl_arfcn_low": "8690",
@@ -265,6 +289,7 @@
     },
     {
         "eutra_operating_band": "27",
+        "dl_freq_marketing_mHz": "800",
         "dl_freq_low_mHz": "852",
         "n_offs_dl": "9040",
         "dl_arfcn_low": "9040",
@@ -276,6 +301,7 @@
     },
     {
         "eutra_operating_band": "28",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "758",
         "n_offs_dl": "9210",
         "dl_arfcn_low": "9210",
@@ -287,6 +313,7 @@
     },
     {
         "eutra_operating_band": "29",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "717",
         "n_offs_dl": "9660",
         "dl_arfcn_low": "9660",
@@ -298,6 +325,7 @@
     },
     {
         "eutra_operating_band": "30",
+        "dl_freq_marketing_mHz": "2300",
         "dl_freq_low_mHz": "2350",
         "n_offs_dl": "9770",
         "dl_arfcn_low": "9770",
@@ -309,6 +337,7 @@
     },
     {
         "eutra_operating_band": "31",
+        "dl_freq_marketing_mHz": "450",
         "dl_freq_low_mHz": "462.5",
         "n_offs_dl": "9870",
         "dl_arfcn_low": "9870",
@@ -320,6 +349,7 @@
     },
     {
         "eutra_operating_band": "32",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1452",
         "n_offs_dl": "9920",
         "dl_arfcn_low": "9920",
@@ -331,6 +361,7 @@
     },
     {
         "eutra_operating_band": "33",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1900",
         "n_offs_dl": "36000",
         "dl_arfcn_low": "36000",
@@ -342,6 +373,7 @@
     },
     {
         "eutra_operating_band": "34",
+        "dl_freq_marketing_mHz": "2000",
         "dl_freq_low_mHz": "2010",
         "n_offs_dl": "36200",
         "dl_arfcn_low": "36200",
@@ -353,6 +385,7 @@
     },
     {
         "eutra_operating_band": "35",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1850",
         "n_offs_dl": "36350",
         "dl_arfcn_low": "36350",
@@ -364,6 +397,7 @@
     },
     {
         "eutra_operating_band": "36",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1930",
         "n_offs_dl": "36950",
         "dl_arfcn_low": "36950",
@@ -375,6 +409,7 @@
     },
     {
         "eutra_operating_band": "37",
+        "dl_freq_marketing_mHz": "1900",
         "dl_freq_low_mHz": "1910",
         "n_offs_dl": "37550",
         "dl_arfcn_low": "37550",
@@ -386,6 +421,7 @@
     },
     {
         "eutra_operating_band": "38",
+        "dl_freq_marketing_mHz": "2600",
         "dl_freq_low_mHz": "2570",
         "n_offs_dl": "37750",
         "dl_arfcn_low": "37750",
@@ -397,6 +433,7 @@
     },
     {
         "eutra_operating_band": "39",
+        "dl_freq_marketing_mHz": "2300",
         "dl_freq_low_mHz": "1880",
         "n_offs_dl": "38250",
         "dl_arfcn_low": "38250",
@@ -408,6 +445,7 @@
     },
     {
         "eutra_operating_band": "40",
+        "dl_freq_marketing_mHz": "2300",
         "dl_freq_low_mHz": "2300",
         "n_offs_dl": "38650",
         "dl_arfcn_low": "38650",
@@ -419,6 +457,7 @@
     },
     {
         "eutra_operating_band": "41",
+        "dl_freq_marketing_mHz": "2500",
         "dl_freq_low_mHz": "2496",
         "n_offs_dl": "39650",
         "dl_arfcn_low": "39650",
@@ -430,6 +469,7 @@
     },
     {
         "eutra_operating_band": "42",
+        "dl_freq_marketing_mHz": "3500",
         "dl_freq_low_mHz": "3400",
         "n_offs_dl": "41590",
         "dl_arfcn_low": "41590",
@@ -441,6 +481,7 @@
     },
     {
         "eutra_operating_band": "43",
+        "dl_freq_marketing_mHz": "3700",
         "dl_freq_low_mHz": "3600",
         "n_offs_dl": "43590",
         "dl_arfcn_low": "43590",
@@ -452,6 +493,7 @@
     },
     {
         "eutra_operating_band": "44",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "703",
         "n_offs_dl": "45590",
         "dl_arfcn_low": "45590",
@@ -463,6 +505,7 @@
     },
     {
         "eutra_operating_band": "45",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1447",
         "n_offs_dl": "46590",
         "dl_arfcn_low": "46590",
@@ -474,6 +517,7 @@
     },
     {
         "eutra_operating_band": "46",
+        "dl_freq_marketing_mHz": "5200",
         "dl_freq_low_mHz": "5150",
         "n_offs_dl": "46790",
         "dl_arfcn_low": "46790",
@@ -485,6 +529,7 @@
     },
     {
         "eutra_operating_band": "47",
+        "dl_freq_marketing_mHz": "5900",
         "dl_freq_low_mHz": "5855",
         "n_offs_dl": "54540",
         "dl_arfcn_low": "54540",
@@ -496,6 +541,7 @@
     },
     {
         "eutra_operating_band": "48",
+        "dl_freq_marketing_mHz": "3500",
         "dl_freq_low_mHz": "3550",
         "n_offs_dl": "55240",
         "dl_arfcn_low": "55240",
@@ -507,6 +553,7 @@
     },
     {
         "eutra_operating_band": "49",
+        "dl_freq_marketing_mHz": "3500",
         "dl_freq_low_mHz": "3550",
         "n_offs_dl": "56740",
         "dl_arfcn_low": "56740",
@@ -518,6 +565,7 @@
     },
     {
         "eutra_operating_band": "50",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1432",
         "n_offs_dl": "58240",
         "dl_arfcn_low": "58240",
@@ -529,6 +577,7 @@
     },
     {
         "eutra_operating_band": "51",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1427",
         "n_offs_dl": "59090",
         "dl_arfcn_low": "59090",
@@ -540,6 +589,7 @@
     },
     {
         "eutra_operating_band": "52",
+        "dl_freq_marketing_mHz": "3300",
         "dl_freq_low_mHz": "3300",
         "n_offs_dl": "59140",
         "dl_arfcn_low": "59140",
@@ -551,6 +601,7 @@
     },
     {
         "eutra_operating_band": "53",
+        "dl_freq_marketing_mHz": "2400",
         "dl_freq_low_mHz": "2483.5",
         "n_offs_dl": "60140",
         "dl_arfcn_low": "60140",
@@ -562,6 +613,7 @@
     },
     {
         "eutra_operating_band": "54",
+        "dl_freq_marketing_mHz": "1600",
         "dl_freq_low_mHz": "1670",
         "n_offs_dl": "60255",
         "dl_arfcn_low": "60255",
@@ -573,6 +625,7 @@
     },
     {
         "eutra_operating_band": "65",
+        "dl_freq_marketing_mHz": "2100",
         "dl_freq_low_mHz": "2110",
         "n_offs_dl": "65536",
         "dl_arfcn_low": "65536",
@@ -584,6 +637,7 @@
     },
     {
         "eutra_operating_band": "66",
+        "dl_freq_marketing_mHz": "1700",
         "dl_freq_low_mHz": "2110",
         "n_offs_dl": "66436",
         "dl_arfcn_low": "66436",
@@ -595,6 +649,7 @@
     },
     {
         "eutra_operating_band": "67",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "738",
         "n_offs_dl": "67336",
         "dl_arfcn_low": "67336",
@@ -606,6 +661,7 @@
     },
     {
         "eutra_operating_band": "68",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "753",
         "n_offs_dl": "67536",
         "dl_arfcn_low": "67536",
@@ -617,6 +673,7 @@
     },
     {
         "eutra_operating_band": "69",
+        "dl_freq_marketing_mHz": "2600",
         "dl_freq_low_mHz": "2570",
         "n_offs_dl": "67836",
         "dl_arfcn_low": "67836",
@@ -628,6 +685,7 @@
     },
     {
         "eutra_operating_band": "70",
+        "dl_freq_marketing_mHz": "1700",
         "dl_freq_low_mHz": "1995",
         "n_offs_dl": "68336",
         "dl_arfcn_low": "68336",
@@ -639,6 +697,7 @@
     },
     {
         "eutra_operating_band": "71",
+        "dl_freq_marketing_mHz": "600",
         "dl_freq_low_mHz": "617",
         "n_offs_dl": "68586",
         "dl_arfcn_low": "68586",
@@ -650,6 +709,7 @@
     },
     {
         "eutra_operating_band": "72",
+        "dl_freq_marketing_mHz": "450",
         "dl_freq_low_mHz": "461",
         "n_offs_dl": "68936",
         "dl_arfcn_low": "68936",
@@ -661,6 +721,7 @@
     },
     {
         "eutra_operating_band": "73",
+        "dl_freq_marketing_mHz": "450",
         "dl_freq_low_mHz": "460",
         "n_offs_dl": "68986",
         "dl_arfcn_low": "68986",
@@ -672,6 +733,7 @@
     },
     {
         "eutra_operating_band": "74",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1475",
         "n_offs_dl": "69036",
         "dl_arfcn_low": "69036",
@@ -683,6 +745,7 @@
     },
     {
         "eutra_operating_band": "75",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1432",
         "n_offs_dl": "69466",
         "dl_arfcn_low": "69466",
@@ -694,6 +757,7 @@
     },
     {
         "eutra_operating_band": "76",
+        "dl_freq_marketing_mHz": "1500",
         "dl_freq_low_mHz": "1427",
         "n_offs_dl": "70316",
         "dl_arfcn_low": "70316",
@@ -705,6 +769,7 @@
     },
     {
         "eutra_operating_band": "85",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "728",
         "n_offs_dl": "70366",
         "dl_arfcn_low": "70366",
@@ -716,6 +781,7 @@
     },
     {
         "eutra_operating_band": "87",
+        "dl_freq_marketing_mHz": "410",
         "dl_freq_low_mHz": "420",
         "n_offs_dl": "70546",
         "dl_arfcn_low": "70546",
@@ -727,6 +793,7 @@
     },
     {
         "eutra_operating_band": "88",
+        "dl_freq_marketing_mHz": "410",
         "dl_freq_low_mHz": "422",
         "n_offs_dl": "70596",
         "dl_arfcn_low": "70596",
@@ -738,6 +805,7 @@
     },
     {
         "eutra_operating_band": "103",
+        "dl_freq_marketing_mHz": "700",
         "dl_freq_low_mHz": "757",
         "n_offs_dl": "70646",
         "dl_arfcn_low": "70646",
@@ -749,6 +817,7 @@
     },
     {
         "eutra_operating_band": "106",
+        "dl_freq_marketing_mHz": "900",
         "dl_freq_low_mHz": "935",
         "n_offs_dl": "70656",
         "dl_arfcn_low": "70656",

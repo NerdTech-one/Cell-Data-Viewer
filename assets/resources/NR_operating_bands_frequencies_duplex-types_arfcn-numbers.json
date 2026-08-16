@@ -1,6 +1,7 @@
 [
     {
         "nr_operating_band": "n1",
+        "dl_freq_marketing_mHz": "2100",
         "ul_freq_low_mHz": "1920",
         "ul_freq_high_mHz": "1980",
         "dl_freq_low_mHz": "2110",
@@ -13,6 +14,7 @@
     },
     {
         "nr_operating_band": "n2",
+        "dl_freq_marketing_mHz": "1900",
         "ul_freq_low_mHz": "1850",
         "ul_freq_high_mHz": "1910",
         "dl_freq_low_mHz": "1930",
@@ -25,6 +27,7 @@
     },
     {
         "nr_operating_band": "n3",
+        "dl_freq_marketing_mHz": "1800",
         "ul_freq_low_mHz": "1710",
         "ul_freq_high_mHz": "1785",
         "dl_freq_low_mHz": "1805",
@@ -37,6 +40,7 @@
     },
     {
         "nr_operating_band": "n5",
+        "dl_freq_marketing_mHz": "850",
         "ul_freq_low_mHz": "824",
         "ul_freq_high_mHz": "849",
         "dl_freq_low_mHz": "869",
@@ -49,6 +53,7 @@
     },
     {
         "nr_operating_band": "n7",
+        "dl_freq_marketing_mHz": "2600",
         "ul_freq_low_mHz": "2500",
         "ul_freq_high_mHz": "2570",
         "dl_freq_low_mHz": "2620",
@@ -61,6 +66,7 @@
     },
     {
         "nr_operating_band": "n8",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "880",
         "ul_freq_high_mHz": "915",
         "dl_freq_low_mHz": "925",
@@ -73,6 +79,7 @@
     },
     {
         "nr_operating_band": "n12",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "699",
         "ul_freq_high_mHz": "716",
         "dl_freq_low_mHz": "729",
@@ -85,6 +92,7 @@
     },
     {
         "nr_operating_band": "n13",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "777",
         "ul_freq_high_mHz": "787",
         "dl_freq_low_mHz": "746",
@@ -97,6 +105,7 @@
     },
     {
         "nr_operating_band": "n14",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "788",
         "ul_freq_high_mHz": "798",
         "dl_freq_low_mHz": "758",
@@ -109,6 +118,7 @@
     },
     {
         "nr_operating_band": "n18",
+        "dl_freq_marketing_mHz": "850",
         "ul_freq_low_mHz": "815",
         "ul_freq_high_mHz": "830",
         "dl_freq_low_mHz": "860",
@@ -121,6 +131,7 @@
     },
     {
         "nr_operating_band": "n20",
+        "dl_freq_marketing_mHz": "800",
         "ul_freq_low_mHz": "832",
         "ul_freq_high_mHz": "862",
         "dl_freq_low_mHz": "791",
@@ -133,6 +144,7 @@
     },
     {
         "nr_operating_band": "n24",
+        "dl_freq_marketing_mHz": "1600",
         "ul_freq_low_mHz": "1626.5",
         "ul_freq_high_mHz": "1660.5",
         "dl_freq_low_mHz": "1525",
@@ -145,6 +157,7 @@
     },
     {
         "nr_operating_band": "n25",
+        "dl_freq_marketing_mHz": "1900",
         "ul_freq_low_mHz": "1850",
         "ul_freq_high_mHz": "1915",
         "dl_freq_low_mHz": "1930",
@@ -157,6 +170,7 @@
     },
     {
         "nr_operating_band": "n26",
+        "dl_freq_marketing_mHz": "850",
         "ul_freq_low_mHz": "814",
         "ul_freq_high_mHz": "849",
         "dl_freq_low_mHz": "859",
@@ -169,6 +183,7 @@
     },
     {
         "nr_operating_band": "n28",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "703",
         "ul_freq_high_mHz": "748",
         "dl_freq_low_mHz": "758",
@@ -181,6 +196,7 @@
     },
     {
         "nr_operating_band": "n29",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "-1",
         "ul_freq_high_mHz": "-1",
         "dl_freq_low_mHz": "717",
@@ -193,6 +209,7 @@
     },
     {
         "nr_operating_band": "n30",
+        "dl_freq_marketing_mHz": "2300",
         "ul_freq_low_mHz": "2305",
         "ul_freq_high_mHz": "2315",
         "dl_freq_low_mHz": "2350",
@@ -205,6 +222,7 @@
     },
     {
         "nr_operating_band": "n31",
+        "dl_freq_marketing_mHz": "450",
         "ul_freq_low_mHz": "452.5",
         "ul_freq_high_mHz": "457.5",
         "dl_freq_low_mHz": "462.5",
@@ -217,6 +235,7 @@
     },
     {
         "nr_operating_band": "n34",
+        "dl_freq_marketing_mHz": "2100",
         "ul_freq_low_mHz": "2010",
         "ul_freq_high_mHz": "2025",
         "dl_freq_low_mHz": "2010",
@@ -229,6 +248,7 @@
     },
     {
         "nr_operating_band": "n38",
+        "dl_freq_marketing_mHz": "2600",
         "ul_freq_low_mHz": "2570",
         "ul_freq_high_mHz": "2620",
         "dl_freq_low_mHz": "2570",
@@ -241,6 +261,7 @@
     },
     {
         "nr_operating_band": "n39",
+        "dl_freq_marketing_mHz": "1900",
         "ul_freq_low_mHz": "1880",
         "ul_freq_high_mHz": "1920",
         "dl_freq_low_mHz": "1880",
@@ -253,6 +274,7 @@
     },
     {
         "nr_operating_band": "n40",
+        "dl_freq_marketing_mHz": "2300",
         "ul_freq_low_mHz": "2300",
         "ul_freq_high_mHz": "2400",
         "dl_freq_low_mHz": "2300",
@@ -265,6 +287,7 @@
     },
     {
         "nr_operating_band": "n41",
+        "dl_freq_marketing_mHz": "2500",
         "ul_freq_low_mHz": "2496",
         "ul_freq_high_mHz": "2690",
         "dl_freq_low_mHz": "2496",
@@ -277,6 +300,7 @@
     },
     {
         "nr_operating_band": "n46",
+        "dl_freq_marketing_mHz": "5200",
         "ul_freq_low_mHz": "5150",
         "ul_freq_high_mHz": "5925",
         "dl_freq_low_mHz": "5150",
@@ -289,6 +313,7 @@
     },
     {
         "nr_operating_band": "n47",
+        "dl_freq_marketing_mHz": "5900",
         "ul_freq_low_mHz": "5855",
         "ul_freq_high_mHz": "5925",
         "dl_freq_low_mHz": "5855",
@@ -301,6 +326,7 @@
     },
     {
         "nr_operating_band": "n48",
+        "dl_freq_marketing_mHz": "3500",
         "ul_freq_low_mHz": "3550",
         "ul_freq_high_mHz": "3700",
         "dl_freq_low_mHz": "3550",
@@ -313,6 +339,7 @@
     },
     {
         "nr_operating_band": "n50",
+        "dl_freq_marketing_mHz": "1500",
         "ul_freq_low_mHz": "1432",
         "ul_freq_high_mHz": "1517",
         "dl_freq_low_mHz": "1432",
@@ -325,6 +352,7 @@
     },
     {
         "nr_operating_band": "n51",
+        "dl_freq_marketing_mHz": "1500",
         "ul_freq_low_mHz": "1427",
         "ul_freq_high_mHz": "1432",
         "dl_freq_low_mHz": "1427",
@@ -337,6 +365,7 @@
     },
     {
         "nr_operating_band": "n53",
+        "dl_freq_marketing_mHz": "2400",
         "ul_freq_low_mHz": "2483.5",
         "ul_freq_high_mHz": "2495",
         "dl_freq_low_mHz": "2483.5",
@@ -349,6 +378,7 @@
     },
     {
         "nr_operating_band": "n54",
+        "dl_freq_marketing_mHz": "1600",
         "ul_freq_low_mHz": "1670",
         "ul_freq_high_mHz": "1675",
         "dl_freq_low_mHz": "1670",
@@ -361,6 +391,7 @@
     },
     {
         "nr_operating_band": "n65",
+        "dl_freq_marketing_mHz": "2100",
         "ul_freq_low_mHz": "1920",
         "ul_freq_high_mHz": "2010",
         "dl_freq_low_mHz": "2110",
@@ -373,6 +404,7 @@
     },
     {
         "nr_operating_band": "n66",
+        "dl_freq_marketing_mHz": "1700",
         "ul_freq_low_mHz": "1710",
         "ul_freq_high_mHz": "1780",
         "dl_freq_low_mHz": "2110",
@@ -385,6 +417,7 @@
     },
     {
         "nr_operating_band": "n67",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "-1",
         "ul_freq_high_mHz": "-1",
         "dl_freq_low_mHz": "738",
@@ -397,6 +430,7 @@
     },
     {
         "nr_operating_band": "n70",
+        "dl_freq_marketing_mHz": "2000",
         "ul_freq_low_mHz": "1695",
         "ul_freq_high_mHz": "1710",
         "dl_freq_low_mHz": "1995",
@@ -409,6 +443,7 @@
     },
     {
         "nr_operating_band": "n71",
+        "dl_freq_marketing_mHz": "600",
         "ul_freq_low_mHz": "663",
         "ul_freq_high_mHz": "698",
         "dl_freq_low_mHz": "617",
@@ -421,6 +456,7 @@
     },
     {
         "nr_operating_band": "n72",
+        "dl_freq_marketing_mHz": "450",
         "ul_freq_low_mHz": "451",
         "ul_freq_high_mHz": "456",
         "dl_freq_low_mHz": "461",
@@ -433,6 +469,7 @@
     },
     {
         "nr_operating_band": "n74",
+        "dl_freq_marketing_mHz": "1500",
         "ul_freq_low_mHz": "1427",
         "ul_freq_high_mHz": "1470",
         "dl_freq_low_mHz": "1475",
@@ -445,6 +482,7 @@
     },
     {
         "nr_operating_band": "n75",
+        "dl_freq_marketing_mHz": "1500",
         "ul_freq_low_mHz": "-1",
         "ul_freq_high_mHz": "-1",
         "dl_freq_low_mHz": "1432",
@@ -457,6 +495,7 @@
     },
     {
         "nr_operating_band": "n76",
+        "dl_freq_marketing_mHz": "1500",
         "ul_freq_low_mHz": "-1",
         "ul_freq_high_mHz": "-1",
         "dl_freq_low_mHz": "1427",
@@ -469,6 +508,7 @@
     },
     {
         "nr_operating_band": "n77",
+        "dl_freq_marketing_mHz": "3700",
         "ul_freq_low_mHz": "3300",
         "ul_freq_high_mHz": "4200",
         "dl_freq_low_mHz": "3300",
@@ -481,6 +521,7 @@
     },
     {
         "nr_operating_band": "n78",
+        "dl_freq_marketing_mHz": "3500",
         "ul_freq_low_mHz": "3300",
         "ul_freq_high_mHz": "3800",
         "dl_freq_low_mHz": "3300",
@@ -493,6 +534,7 @@
     },
     {
         "nr_operating_band": "n79",
+        "dl_freq_marketing_mHz": "4500",
         "ul_freq_low_mHz": "4400",
         "ul_freq_high_mHz": "5000",
         "dl_freq_low_mHz": "4400",
@@ -505,6 +547,7 @@
     },
     {
         "nr_operating_band": "n80",
+        "dl_freq_marketing_mHz": "1800",
         "ul_freq_low_mHz": "1710",
         "ul_freq_high_mHz": "1785",
         "dl_freq_low_mHz": "-1",
@@ -517,6 +560,7 @@
     },
     {
         "nr_operating_band": "n81",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "880",
         "ul_freq_high_mHz": "915",
         "dl_freq_low_mHz": "-1",
@@ -529,6 +573,7 @@
     },
     {
         "nr_operating_band": "n82",
+        "dl_freq_marketing_mHz": "800",
         "ul_freq_low_mHz": "832",
         "ul_freq_high_mHz": "862",
         "dl_freq_low_mHz": "-1",
@@ -541,6 +586,7 @@
     },
     {
         "nr_operating_band": "n83",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "703",
         "ul_freq_high_mHz": "748",
         "dl_freq_low_mHz": "-1",
@@ -553,6 +599,7 @@
     },
     {
         "nr_operating_band": "n84",
+        "dl_freq_marketing_mHz": "2100",
         "ul_freq_low_mHz": "1920",
         "ul_freq_high_mHz": "1980",
         "dl_freq_low_mHz": "-1",
@@ -565,6 +612,7 @@
     },
     {
         "nr_operating_band": "n85",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "698",
         "ul_freq_high_mHz": "716",
         "dl_freq_low_mHz": "728",
@@ -577,6 +625,7 @@
     },
     {
         "nr_operating_band": "n86",
+        "dl_freq_marketing_mHz": "1700",
         "ul_freq_low_mHz": "1710",
         "ul_freq_high_mHz": "1780",
         "dl_freq_low_mHz": "-1",
@@ -589,6 +638,7 @@
     },
     {
         "nr_operating_band": "n89",
+        "dl_freq_marketing_mHz": "450",
         "ul_freq_low_mHz": "824",
         "ul_freq_high_mHz": "849",
         "dl_freq_low_mHz": "-1",
@@ -601,6 +651,7 @@
     },
     {
         "nr_operating_band": "n90",
+        "dl_freq_marketing_mHz": "2500",
         "ul_freq_low_mHz": "2496",
         "ul_freq_high_mHz": "2690",
         "dl_freq_low_mHz": "2496",
@@ -613,6 +664,7 @@
     },
     {
         "nr_operating_band": "n91",
+        "dl_freq_marketing_mHz": "800",
         "ul_freq_low_mHz": "832",
         "ul_freq_high_mHz": "862",
         "dl_freq_low_mHz": "1427",
@@ -625,6 +677,7 @@
     },
     {
         "nr_operating_band": "n92",
+        "dl_freq_marketing_mHz": "800",
         "ul_freq_low_mHz": "832",
         "ul_freq_high_mHz": "862",
         "dl_freq_low_mHz": "1432",
@@ -637,6 +690,7 @@
     },
     {
         "nr_operating_band": "n93",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "880",
         "ul_freq_high_mHz": "915",
         "dl_freq_low_mHz": "1427",
@@ -649,6 +703,7 @@
     },
     {
         "nr_operating_band": "n94",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "880",
         "ul_freq_high_mHz": "915",
         "dl_freq_low_mHz": "1432",
@@ -661,6 +716,7 @@
     },
     {
         "nr_operating_band": "n95",
+        "dl_freq_marketing_mHz": "2100",
         "ul_freq_low_mHz": "2010",
         "ul_freq_high_mHz": "2025",
         "dl_freq_low_mHz": "-1",
@@ -673,6 +729,7 @@
     },
     {
         "nr_operating_band": "n96",
+        "dl_freq_marketing_mHz": "6000",
         "ul_freq_low_mHz": "5925",
         "ul_freq_high_mHz": "7125",
         "dl_freq_low_mHz": "5925",
@@ -685,6 +742,7 @@
     },
     {
         "nr_operating_band": "n97",
+        "dl_freq_marketing_mHz": "2300",
         "ul_freq_low_mHz": "2300",
         "ul_freq_high_mHz": "2400",
         "dl_freq_low_mHz": "-1",
@@ -697,6 +755,7 @@
     },
     {
         "nr_operating_band": "n98",
+        "dl_freq_marketing_mHz": "1900",
         "ul_freq_low_mHz": "1880",
         "ul_freq_high_mHz": "1920",
         "dl_freq_low_mHz": "-1",
@@ -709,6 +768,7 @@
     },
     {
         "nr_operating_band": "n99",
+        "dl_freq_marketing_mHz": "1600",
         "ul_freq_low_mHz": "1626.5",
         "ul_freq_high_mHz": "1660.5",
         "dl_freq_low_mHz": "-1",
@@ -721,6 +781,7 @@
     },
     {
         "nr_operating_band": "n100",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "874.4",
         "ul_freq_high_mHz": "880",
         "dl_freq_low_mHz": "919.4",
@@ -733,6 +794,7 @@
     },
     {
         "nr_operating_band": "n101",
+        "dl_freq_marketing_mHz": "1900",
         "ul_freq_low_mHz": "1900",
         "ul_freq_high_mHz": "1910",
         "dl_freq_low_mHz": "1900",
@@ -745,6 +807,7 @@
     },
     {
         "nr_operating_band": "n102",
+        "dl_freq_marketing_mHz": "6200",
         "ul_freq_low_mHz": "5925",
         "ul_freq_high_mHz": "6425",
         "dl_freq_low_mHz": "5925",
@@ -757,6 +820,7 @@
     },
     {
         "nr_operating_band": "n104",
+        "dl_freq_marketing_mHz": "6700",
         "ul_freq_low_mHz": "6425",
         "ul_freq_high_mHz": "7125",
         "dl_freq_low_mHz": "6425",
@@ -769,6 +833,7 @@
     },
     {
         "nr_operating_band": "n105",
+        "dl_freq_marketing_mHz": "600",
         "ul_freq_low_mHz": "663",
         "ul_freq_high_mHz": "703",
         "dl_freq_low_mHz": "612",
@@ -781,6 +846,7 @@
     },
     {
         "nr_operating_band": "n106",
+        "dl_freq_marketing_mHz": "900",
         "ul_freq_low_mHz": "896",
         "ul_freq_high_mHz": "901",
         "dl_freq_low_mHz": "935",
@@ -793,6 +859,7 @@
     },
     {
         "nr_operating_band": "n109",
+        "dl_freq_marketing_mHz": "700",
         "ul_freq_low_mHz": "703",
         "ul_freq_high_mHz": "733",
         "dl_freq_low_mHz": "1432",
@@ -805,6 +872,7 @@
     },
     {
         "nr_operating_band": "n257",
+        "dl_freq_marketing_mHz": "28000",
         "ul_freq_low_mHz": "26500",
         "ul_freq_high_mHz": "29500",
         "dl_freq_low_mHz": "26500",
@@ -817,6 +885,7 @@
     },
     {
         "nr_operating_band": "n258",
+        "dl_freq_marketing_mHz": "26000",
         "ul_freq_low_mHz": "24250",
         "ul_freq_high_mHz": "27500",
         "dl_freq_low_mHz": "24250",
@@ -829,6 +898,7 @@
     },
     {
         "nr_operating_band": "n259",
+        "dl_freq_marketing_mHz": "41000",
         "ul_freq_low_mHz": "39500",
         "ul_freq_high_mHz": "43500",
         "dl_freq_low_mHz": "39500",
@@ -841,6 +911,7 @@
     },
     {
         "nr_operating_band": "n260",
+        "dl_freq_marketing_mHz": "39000",
         "ul_freq_low_mHz": "37000",
         "ul_freq_high_mHz": "40000",
         "dl_freq_low_mHz": "37000",
@@ -853,6 +924,7 @@
     },
     {
         "nr_operating_band": "n261",
+        "dl_freq_marketing_mHz": "28000",
         "ul_freq_low_mHz": "27500",
         "ul_freq_high_mHz": "28350",
         "dl_freq_low_mHz": "27500",
@@ -865,6 +937,7 @@
     },
     {
         "nr_operating_band": "n262",
+        "dl_freq_marketing_mHz": "47000",
         "ul_freq_low_mHz": "47200",
         "ul_freq_high_mHz": "48200",
         "dl_freq_low_mHz": "47200",
@@ -877,6 +950,7 @@
     },
     {
         "nr_operating_band": "n263",
+        "dl_freq_marketing_mHz": "60000",
         "ul_freq_low_mHz": "57000",
         "ul_freq_high_mHz": "71000",
         "dl_freq_low_mHz": "57000",

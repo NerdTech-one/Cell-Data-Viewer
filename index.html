@@ -157,7 +157,7 @@
             <div class="p-3">
               <h5 class="card-title mb-3 d-none d-md-block">Data & Filters</h5>  <!-- title of the card with 1rem margin bottom and only visible for screen-width >= 768px -->
               <div class="mb-3"> <!-- element with 1rem margin bottom -->
-                <label for="csvFiles" class="form-label text-secondary small-text">SELECT OR DROP CSV FILES <a id="csvTooltip" href="" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, G-MoN Pro & Tower Collector - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></a></label> <!-- styled label for the CSV file picker button with a lighter text color, smaller text size and uppercase text-->
+                <label for="csvFiles" class="form-label text-secondary small-text">SELECT OR DROP CSV FILES <a id="csvTooltip" href="" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, G-MoN Pro, Tower Collector and CoverageMap (beta) - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></a></label> <!-- styled label for the CSV file picker button with a lighter text color, smaller text size and uppercase text-->
                 <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFiles" accept=".csv" autocomplete="off" multiple/> <!-- styled file picker button with a transparent background and light text -->
               </div>
               <div class="mb-3 d-flex justify-content-between align-items-center"> <!-- element with 1rem margin bottom which is a flexbox which pushes the two items inside apart and vertically centers the items -->
@@ -614,9 +614,9 @@
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
                                 <h3>Hosting mit Easyname</h3>
-                                <p>Der Hoster erhebt in sog. Logfiles folgende Daten, die Ihr Browser übermittelt:</p>
+                                <p>Es werden in sog. Logfiles folgende Daten, die Ihr Browser übermittelt, erhoben:</p>
                                 <p>IP-Adresse, die Adresse der vorher besuchten Website (Referer Anfrage-Header), Datum und Uhrzeit der Anfrage, Zeitzonendifferenz zur Greenwich Mean Time, Inhalt der Anforderung, HTTP-Statuscode, übertragene Datenmenge, Website, von der die Anforderung kommt und Informationen zu Browser und Betriebssystem.</p>
-                                <p>Dies ist erforderlich, um die Website anzuzeigen und die Stabilität und Sicherheit zu gewährleisten. Dies entspricht dem berechtigten Interesse im Sinne des Art. 6 Abs. 1 S. 1 lit. f DSGVO.</p>
+                                <p>Das ist erforderlich, um die Website anzuzeigen und die Stabilität und Sicherheit zu gewährleisten. Dies entspricht dem berechtigten Interesse im Sinne des Art. 6 Abs. 1 S. 1 lit. f DSGVO.</p>
                                 <p>In den Statistiken des Hosters werden die folgenden Daten bereitgestellt:</p>
                                 <p>Top 10 der am häufigsten verwendeten IP-Adressen welche diese Website besuchen. Top 10 der am häufigsten verwendeten Browser, welche diese Website besuchen. Top 10 der am häufigsten verwendeten Betriebssysteme, welche diese Website besuchen.</p>
                                 <p>Ich setzen für die Zurverfügungstellung dieser Website folgenden Hoster ein:</p>
@@ -770,6 +770,8 @@
     const headersGMPOptimized = ['PLMN', 'SYSTEM', 'Cell', 'NB', 'LOCAL_CID', 'LAC', 'PCI', 'ARFCN', 'Band', 'RSSI', 'Signal', 'RSRQ', 'SNR', 'CQI', 'TA', 'DISTANCE', 'DELTA_AZI', 'Latitude', 'Longitude', 'SPEED', 'Accuracy', 'UL', 'DL', 'BANDWIDTH', 'Bandwidths', 'CA', 'NR_STATE', 'NARFCN', 'NR_BAND', 'NR_PCI', 'NR_SS_RSRP', 'NR_SS_RSRQ', 'NR_SS_SINR', 'NR_CSI_RSRP', 'NR_CSI_RSRQ', 'NR_CSI_SINR', 'CLF_LABEL', 'CLF_LOC', 'CLF_DESC', 'DATE', 'TIME', 'ROAMING']
     const headersTC = ['mcc', 'mnc', 'lac', 'cell_id', 'short_cell_id', 'rnc', 'psc', 'asu', 'dbm', 'ta', 'lat', 'lon', 'accuracy', 'speed', 'bearing', 'altitude', 'measured_at', 'net_type', 'neighboring', 'discovered_at', 'device', 'rsrp', 'rsrq', 'rssi', 'rssnr', 'cqi', 'rscp', 'csi_rsrp', 'csi_rsrq', 'csi_sinr', 'ss_rsrp', 'ss_rsrq', 'ss_sinr', 'cdma_dbm', 'cdma_ecio', 'evdo_dbm', 'evdo_ecio', 'evdo_snr', 'ec_no', 'arfcn']
     const headersTCOptimized = ['MCC', 'MNC', 'LAC', 'Cell', 'short_cell_id', 'rnc', 'PCI', 'asu', 'Signal', 'ta', 'Latitude', 'Longitude', 'Accuracy', 'speed', 'bearing', 'Altitude', 'Timestamp', 'Type', 'neighboring', 'discovered_at', 'device', 'rsrp', 'rsrq', 'rssi', 'rssnr', 'cqi', 'rscp', 'csi_rsrp', 'csi_rsrq', 'csi_sinr', 'ss_rsrp', 'ss_rsrq', 'ss_sinr', 'cdma_dbm', 'cdma_ecio', 'evdo_dbm', 'evdo_ecio', 'evdo_snr', 'ec_no', 'ARFCN']
+    const headersCVM = ['Date', 'Capture Group ID', 'Latitude', 'Longitude', 'City', 'Region', 'Country', 'Postal Code', 'Provider', 'Carrier', 'Technology', 'Reported Network Type', 'PLMN', 'MCC', 'MNC', 'Roaming', 'Cell Type', 'Cell Status', 'Frequency (MHz)', 'Signal Strength (dBm)', 'RSRP', 'RSRQ', 'RSSI', 'SINR', 'CQI', 'ASU', 'Timing Advance', 'Global Cell ID', 'Site ID', 'Sector ID', 'Cell ID', 'Area Code', 'Radio Code', 'Device', 'OS Version']
+    const headersCVMOptimized = ['Timestamp', 'Capture_Group_ID', 'Latitude', 'Longitude', 'City', 'Region', 'Country', 'Postal_Code', 'Provider', 'Carrier', 'Type', 'Subtype', 'PLMN', 'MCC', 'MNC', 'Roaming', 'Cell_Type', 'Cell_Status', 'Frequency', 'Signal', 'RSRP', 'RSRQ', 'RSSI', 'SINR', 'CQI', 'ASU', 'Timing Advance', 'Global_Cell_ID', 'Site_ID', 'Sector_ID', 'Cell', 'LAC', 'Radio_Code', 'Device', 'OS_Version']
     const mapping = { 'LTE-LTE': 256, 'NR-NSA': 0, 'NR-SA': 16384 };
     const invalidValues = ["-1", "0", "1", "", "9223372036854775807", "000000"];
 
@@ -1102,6 +1104,61 @@
           //add the finished row dict/json to the rows list
           rows.push(row);
         });
+      } else if (lines[0].split(",").length == headersCVM.length && lines[0].split(",").every(h => headersCVM.includes(h))) { //for CoverageMap
+        //iterate over all the lines except the first one
+        lines.slice(1).forEach(line => {
+          parsedLines++;
+
+          //split the line at the separator
+          const cols = line.split(",");
+          //when the line does not have the expected amount of columns skip the rest of the run
+          if (cols.length !== headersCVM.length) return;
+
+          //construct the row as a dictionary/json
+          const row = {};
+
+          //iterate over the headers and set a new key value pair for the current header and the column value at the current header index
+          headersCVMOptimized.forEach((h, idx) => {
+            row[h] = cols[idx]
+          });
+
+          //create new PLMN entry based von MCC and MNC when these values are not invalid
+          row.PLMN = (!invalidValues.includes(row.MCC) || !invalidValues.includes(row.MNC)) ? `${row.MCC}-${row.MNC}` : "Unknown";
+          
+          //create new TypeSubtype entry based on Type when this value is not invalid
+          row.TypeSubtype = row.Type === "LTE" ? `${row.Type}-LTE` : row.Type === "5GNR" ? row.Subtype === "NRSA" ? "NR-SA" : row.Subtype === "NRNSA" ? "NR-NSA" : "Unknown" : "Unknown";
+          //skip the rest of the run if type is not LTE or NR
+          if (row.TypeSubtype.includes(["LTE", "NR"])) return;
+
+          //update LAC entry if value is invalid
+          row.LAC = (!invalidValues.includes(row.LAC)) ? row.LAC : "Unknown";
+          //update Cell entry if value is invalid
+          row.Cell = (!invalidValues.includes(row.Cell)) ? row.Cell : "Unknown";
+          //update PCI entry if value is invalid
+          row.PCI = (!invalidValues.includes(row.PCI)) ? row.PCI : "Unknown";
+          //update ARFCN entry if value is invalid
+          row.ARFCN = (!invalidValues.includes(row.ARFCN)) ? row.ARFCN : "Unknown";
+          //update Sector_ID entry if value is invalid
+          row.Sector_ID = (!invalidValues.includes(row.Sector_ID)) ? row.Sector_ID : "Unknown";
+          
+          //get the divisor for the calculation of the NB based on TypeSubtype
+          const divisor = mapping[row.TypeSubtype] ?? 1;
+          //create a new NB entry by first convert and check if the Cell-ID is a finite number and then calculate the NB by converting the Cell-ID to a number, divide it by the divisor, and turning it into a while number
+          row.NB = Number.isFinite(Number(row.Cell)) && divisor !== 0 ? String(Math.trunc(Number(row.Cell) / divisor)) : "Unknown";
+          
+          //create a new Band entry with the getBandNumber function
+          row.Band = getBandNumberMF(row.Frequency, row.TypeSubtype)
+          //create a new Color entry with the determineMarkerColor function
+          row.Color = determineMarkerColor(row.Signal);
+          
+          //update the Timestamp entry by aligning format with that of G-MoN Pro
+          row.Timestamp = row.Timestamp.replace("T", " ").replace("Z", "").replaceAll("-", "/").replaceAll("\"", "");
+          //create a new Source entry
+          row.Source = "CoverageMap";
+
+          //add the finished row dict/json to the rows list
+          rows.push(row);
+        });
       }
       console.log(`Parsed ${parsedLines} rows from CSV`);
       console.log(`Keeping ${rows.length - additionalLines} rows after parsing and cleaning`);
@@ -1139,6 +1196,47 @@
           nrBands.forEach (nrBand => {
             //when the ARFCN is in the range between dl_arfcn_low and dl_arfcn_high
             if (arfcnInt >= nrBand.dl_arfcn_low && arfcnInt <= nrBand.dl_arfcn_high) {
+              //when in range add the current band to the list
+              matchingBands.push(nrBand.nr_operating_band);
+            }
+          });
+          //return all bands as a string by joining all matching entries together
+          return `${matchingBands.join("/")}`;
+        }
+        return "NR Band ?";
+      }
+      return "Unknown Band";
+    }
+
+    function getBandNumberMF(markeingFrequency, type) {
+      //parse the markeingFrequency to an int
+      const markeingFrequencyInt = parseInt(markeingFrequency);
+      //band selection when type is LTE and markeingFrequency is not NaN
+      if (type.includes('LTE') && !isNaN(markeingFrequencyInt)) {
+        //check whether eutraBands is not an empty array
+        if (Array.isArray(eutraBands) && eutraBands.length) {
+          let matchingBands = [];
+          //iterate over the eutraBands list
+          eutraBands.forEach(eutraBand => {
+            //when the markeingFrequency matches
+            if (markeingFrequencyInt == eutraBand.dl_freq_marketing_mHz) {
+              //when it is a match add the current band to the list
+              matchingBands.push(eutraBand.eutra_operating_band);
+            }
+          });
+          //return all bands as a string by joining all matching entries together
+          return `${matchingBands.join("/")}`;
+        }
+        return "LTE Band ?";
+      //band selection when type is NR and markeingFrequency is not NaN
+      } else if (type.includes('NR') && !isNaN(markeingFrequencyInt)) {
+        //check whether nrBands is not an empty array
+        if (Array.isArray(nrBands) && nrBands.length) {
+          let matchingBands = [];
+          //iterate over the nrBand list
+          nrBands.forEach (nrBand => {
+            //when the markeingFrequency matches
+            if (markeingFrequencyInt == nrBand.dl_freq_marketing_mHz) {
               //when in range add the current band to the list
               matchingBands.push(nrBand.nr_operating_band);
             }
@@ -1457,13 +1555,13 @@
             <th scope="row">Cell ID</th>   <td>${p.Cell}</td>
           </tr>
           <tr>
-            <th scope="row">PCI</th>       <td>${p.PCI}</td>
+            <th scope="row">${p.PCI ? "PCI" : p.Sector_ID ? "Sector ID" : "Unknown"}</th>  <td>${p.PCI ? p.PCI : p.Sector_ID ? p.Sector_ID : "Unknown"}</td>
           </tr>
           <tr>
             <th scope="row">Frequency</th> <td>${p.Frequency} MHz</td>
           </tr>
           <tr>
-            <th scope="row">ARFCN</th>     <td>${p.ARFCN}</td>
+            <th scope="row">${p.ARFCN ? "ARFCN" : p.Cell_Status ? "Cell Status" : "Unknown"}</th>  <td>${p.ARFCN ? p.ARFCN : p.Cell_Status ? p.Cell_Status : "Unknown"}</td>
           </tr>
           <tr>
             <th scope="row">Band</th>      <td>${p.Band}</td>
@@ -1475,7 +1573,7 @@
             <th scope="row">Signal</th>    <td>${p.Signal} dBm</td>
           </tr>
           <tr>
-            <th scope="row">${p.Altitude ? "Altitude" : p.Bandwidths ? "Bandwidths": ""}</th>  <td>${p.Altitude ? p.Altitude + " meters": p.Bandwidths ? p.Bandwidths + " MHz": ""}</td>
+            <th scope="row">${p.Altitude ? "Altitude" : p.Bandwidths ? "Bandwidths": p.OS_Version ? "Device (OS)" : "Unknown"}</th>  <td>${p.Altitude ? p.Altitude + " meters": p.Bandwidths ? p.Bandwidths + " MHz": p.Device ? p.Device + " (A" + p.OS_Version + ")" : "Unknown"}</td>
           </tr>
           <tr>
             <th scope="row">Latitude</th>  <td>${p.Latitude}</td>
