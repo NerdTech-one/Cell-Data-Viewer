@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <title>Cell Data Viewer</title>
-  <meta name="description" content="Cell Data Viewer by NerdTech is a web tool for viewing, filtering and exporting cell tower data that you have collected. It supports CSV files from CellMapper, G-MoN Pro and Tower Collector.">
+  <meta name="description" content="Cell Data Viewer by NerdTech is a web tool for viewing, filtering and exporting cell tower data that you have collected. It supports CSV files from CellMapper, CoverageMap, G-MoN Pro and Tower Collector.">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#212529"/>
-  <link rel="icon" type="image/x-icon" href="./assets/resources/file-bar-graph-fill.svg"/>
+  <link rel="icon" type="image/x-icon" href="./assets/imgs/file-bar-graph-fill.svg"/>
 
   <link
-    href="./assets/resources/bootstrap.min.css"
+    href="./assets/css/bootstrap.min.css"
     rel="stylesheet"
   />
 
   <link 
     rel="stylesheet" 
-    href="./assets/resources/bootstrap-icons.min.css"
+    href="./assets/css/bootstrap-icons.min.css"
   />
 
   <link
     rel="stylesheet"
-    href="./assets/resources/leaflet.min.css"
+    href="./assets/css/leaflet.min.css"
   />
 
   <style>
@@ -55,17 +55,46 @@
       max-height: 13rem; /*208px*/
     }
 
+    .help-imgs {
+      max-width: 350px;
+    }
+
+    #consentCard {
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100dvh - 8.8rem);
+    }
+
+    #consentCard .card-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding-bottom: 1rem;
+    }
+
+    #consentTxt {
+      padding-right: 0.5rem;
+      scrollbar-gutter: stable;
+    }
+
     @media (max-width: 767px) {
       #map {
-        height: calc(100dvh - 12.462rem); /*199.392px*/
+        height: calc(100dvh - 12.175rem);
       }
 
       .leaflet-tooltip {
         display: none !important;
       }
+    }
 
-      #configCard {
-        height: auto !important;
+    @media (min-width: 768px) {
+      #map {
+        height: calc(100dvh - 8.8rem);
+      }
+
+      #offcanvas {
+        border-top-right-radius: 1rem !important;
+        border-bottom-right-radius: 1rem !important;
       }
     }
 
@@ -100,10 +129,15 @@
 
     #themeToggle {
       height: 21px;
+      font-size: 0.8em;
     }
 
-    #themeToggle label {
+    #themeToggle {
       display: flex;
+    }
+
+    .scrollbarGutterStable {
+      scrollbar-gutter: stable;
     }
 
     @keyframes dropzone-pulse {
@@ -129,198 +163,226 @@
     }
   </style>
 </head>
-<body class="d-flex flex-column" data-bs-theme="dark"> <!-- body with a dark color theme as a flexible column -->
-  <nav class="navbar border-bottom border-secondary" id="navbar"> <!-- styled navbar with a border at the bottom in a light color -->
-    <div class="container-fluid"> <!-- always full width container -->
-      <div class="d-flex flex-column cursor-default"> <!-- flexible in vertical orientation with default cursor override -->
-        <h1 class="navbar-brand mb-0"> <!-- the brand of the website with no margin bottom -->
-          <i class="bi bi-file-bar-graph-fill"></i> <!-- bootstrap icons reception bars --> Cell Data Viewer
-        </h1>
-        <h2 class="text-secondary m-0 small-text"><a href="https://nerdtech.one" target="_blank" class=" text-decoration-none">by NerdTech</a></h2><!-- gray text with no margin and a custom small text -->
+<body class="d-flex flex-column" data-bs-theme="dark">
+  <header>
+    <nav class="navbar border-bottom border-secondary" id="navbar">
+      <div class="container-fluid">
+        <div class="d-flex flex-column cursor-default">
+          <h1 class="navbar-brand mb-0">
+            <i class="bi bi-file-bar-graph-fill"></i> Cell Data Viewer
+          </h1>
+          <h2 class="text-secondary m-0 small-text"><a href="https://nerdtech.one" target="_blank" rel="noopener noreferrer" class=" text-decoration-none">by NerdTech</a></h2>
+        </div>
+        <a href="https://github.com/NerdTech-one/Cell-Data-Viewer/" class="text-decoration-none text-secondary cursor-pointer" target="_blank" rel="noopener noreferrer">
+          <span><i class="bi bi-file-earmark-code"></i> GitHub</span>
+        </a>
       </div>
-      <a href="https://github.com/NerdTech-one/Cell-Data-Viewer/" class="text-decoration-none text-secondary cursor-pointer" target="_blank"> <!-- link with no text decoration, gray text and default cursor override -->
-        <span><i class="bi bi-file-earmark-code"></i> <!-- bootstrap code icon --> GitHub</span>
-      </a>
-    </div>
-  </nav>
-  <div class="bg-primary-subtle container-fluid d-flex flex-grow-1 py-3" id="contentContainer"> <!-- with a dark blue background always full width flexible container which always fills the screen height with 1rem padding top & bottom -->
-    <div class="row flex-grow-1 g-3"> <!-- row which always fills the screen height with a gutter between columns of 1.5rem -->
-      <div class="col-12 col-md-5 col-xl-4 col-xxl-3"> <!-- element either spanning all 12/12 columns on screen-width < 768px, spanning 5/12 columns on screen-width >= 768px, spanning 4/12 columns on screen-width >= 1200 and spanning 3/12 columns on screen-width >= 1400px -->
-        <div class="card h-100 rounded-4 border-secondary-subtle bg-secondary-subtle" id="configCard"> <!-- a card with 100% height in relation to the parent element, a 1rem rounded & subtle lighter border and darker background -->
-          <div class="card-header d-md-none cursor-pointer rounded-top-4" data-bs-toggle="collapse" data-bs-target="#filtersCardBody" aria-expanded="true" aria-controls="filtersCardBody" id="mobileHeader"> <!-- header of the card for screen-width < 768px, controls the manual collapsing of the card body, has a manual override for the cursor as a pointer and a border radius for the top-->
-            <h5 class="card-title mb-0 d-flex justify-content-between align-items-center">  <!-- title of the card with no margin bottom as a flexbox which pushes the two items inside apart and vertically centers the items -->
-              <span>Data & Filters</span>
-              <i class="bi bi-chevron-up" id="collapseIcon"></i> <!-- bootstrap icons down arrow -->
-            </h5>
+    </nav>
+  </header>
+  <main class="container-fluid bg-primary-subtle d-flex flex-grow-1 py-3" id="contentContainer">
+    <div class="row flex-grow-1 g-3">
+      <div class="col-12 col-md-5 col-xl-4 col-xxl-3 mt-0 mt-md-3 d-none" id="filterColumn">
+        <div class="offcanvas-md offcanvas-end rounded-start-4 rounded-end-0 border border-secondary-subtle bg-secondary-subtle h-100" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+          <div class="offcanvas-header ps-3 pe-3">
+            <h5 class="offcanvas-title mb-0 d-flex justify-content-between align-items-center" id="offcanvasLabel">Data &amp; Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvas" aria-label="Close"></button>
           </div>
-          <div id="filtersCardBody" class="card-body collapse show p-0"> <!-- card body which is collapsable but not collapsed on load -->
-            <div class="p-3">
-              <h5 class="card-title mb-3 d-none d-md-block">Data & Filters</h5>  <!-- title of the card with 1rem margin bottom and only visible for screen-width >= 768px -->
-              <div class="mb-3"> <!-- element with 1rem margin bottom -->
-                <label for="csvFiles" class="form-label text-secondary small-text">SELECT OR DROP CSV FILES <a id="csvTooltip" href="" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, G-MoN Pro, Tower Collector and CoverageMap (beta) - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></a></label> <!-- styled label for the CSV file picker button with a lighter text color, smaller text size and uppercase text-->
-                <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFiles" accept=".csv" autocomplete="off" multiple/> <!-- styled file picker button with a transparent background and light text -->
+          <div class="offcanvas-body p-3 flex-column w-100">
+            <div class="row">
+              <h5 class="mb-3 d-none d-md-block">Data &amp; Filters</h5>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="csvFiles" class="form-label text-secondary small-text">SELECT OR DROP CSV FILES <button id="csvTooltip" class="btn btn-link p-0" type="button" data-bs-toggle="tooltip" data-bs-title="Supported sources are CellMapper, CoverageMap, G-MoN Pro and Tower Collector - see help for details" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" aria-label="Information about CSV file sources"><i class="bi bi-info-circle"></i></button></label>
+                <input class="form-control bg-transparent text-secondary border-secondary" type="file" id="csvFiles" accept=".csv" autocomplete="off" multiple/>
               </div>
-              <div class="mb-3 d-flex justify-content-between align-items-center"> <!-- element with 1rem margin bottom which is a flexbox which pushes the two items inside apart and vertically centers the items -->
-                <a id="btnHelp" class="btn btn-sm btn-outline-info" href="https://github.com/NerdTech-one/Cell-Data-Viewer/wiki" target="_blank">Help</a> <!-- link which is styled as a compact outlined info button -->
-                <span class="badge badge-pill text-bg-secondary py-2 small-text cursor-default"> <!-- points counter as a badge pill with gray secondary background, 0.5rem margin top and bottom and custom font size as well as a cursor type override to default -->
+              <div class="mb-3 d-flex justify-content-between align-items-center">
+                <button id="btnHelp" class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="bi bi-question-lg me-1"></i>Help</button>
+                <span class="badge badge-pill text-bg-secondary py-2 small-text cursor-default" aria-live="polite">
                   <span id="visibleCount">0</span> / <span id="totalCount">0</span> Points
                 </span>
               </div>
-              <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">PLMN</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterPlmn"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterPlmnBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterPlmnSelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterPlmnSearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterPlmnUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>
-                        <li id="filterPlmnNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">TYPE</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterType"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterTypeBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterTypeSelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterTypeSearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterTypeUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>
-                        <li id="filterTypeNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">BAND</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterBand"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterBandBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterBandSelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterBandSearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterBandUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>
-                        <li id="filterBandNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">FREQUENCY</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterFrequency"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterFrequencyBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterFrequencySelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterFrequencySearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable z-1 overflow-y-auto mb-0 list-unstyled" id="filterFrequencyUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>                      
-                        <li id="filterFrequencyNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row g-2 mb-3"> <!-- row with a gutter between columns of 0.75rem and 1rem margin bottom -->
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">NB</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterNb"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterNbBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterNbSelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterNbSearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterNbUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>
-                        <li id="filterNbNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 mt-0"> <!-- element which spans 6/12 columns and no margin top -->
-                  <label class="form-label text-secondary small-text">CELL</label> <!-- styled label with a lighter text color, smaller text size and uppercase text -->
-                  <div class="dropdown" id="filterCell"> <!-- styled dropdown -->
-                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="filterCellBtn" data-bs-toggle="dropdown" aria-expanded="false"> <!-- button which is styled as a outlined secondary button with the full width of the parent element, left aligned text and a dropdown arrow-->
-                      <span id="filterCellSelected">All</span> <!-- default button text -->
-                    </button>
-                    <div class="dropdown-menu pt-0 w-100 z-1"> <!-- dropdown menu with no padding top, it fills the full width of the parent element and has a high z-index to be in-front of all map elements-->
-                      <ul class="pt-0 mb-0 list-unstyled"> <!-- list with no padding top, no margin bottom and no default styling -->
-                        <li class="p-2 border-bottom border-secondary-subtle"> <!-- list element for search with a padding from all sides of 0.5rem and a border at the bottom with a subtle style -->
-                          <input type="text" class="form-control form-control-sm border-secondary" id="filterCellSearch" placeholder="Type to search..." autocomplete="off"> <!-- styled text input as a compact form field and a darker border -->
-                        </li>
-                      </ul>
-                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterCellUL"> <!-- list with a max-height after which it turns into a scrollable list, no margin bottom and no default styling -->
-                        <li>
-                          <a class="dropdown-item" href="#" data-value="">All</a> <!-- styled dropdown item -->
-                        </li>
-                        <li id="filterCellNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li> <!-- No results dropdown-item with gray text, not visible by default and not user selectable -->
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center"> <!-- element which is a flexbox which pushes the two items inside apart and vertically centers the items -->
-                <button id="btnClearFilters" class="btn btn-sm btn-outline-danger">  <!-- button which is styled as a compact outlined danger button -->
-                  Clear filters
-                </button>
-                <button id="btnSaveMap" class="btn btn-sm btn-success"> <!-- button which is styled as a compact success button -->
-                  Save map
-                </button>
-              </div>
             </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text" for="filterPlmnBtn">PLMN</label>
+                  <div class="dropdown" id="filterPlmn">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterPlmnBtn" data-bs-toggle="dropdown" aria-expanded="false"  aria-controls="filterPlmnMenu">
+                      <span id="filterPlmnSelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterPlmnBtn" role="menu" id="filterPlmnMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterPlmnSearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for PLMN value">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterPlmnUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>
+                        <li id="filterPlmnNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text" for="filterTypeBtn">TYPE</label>
+                  <div class="dropdown" id="filterType">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterTypeBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="filterTypeMenu">
+                      <span id="filterTypeSelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterTypeBtn" role="menu" id="filterTypeMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterTypeSearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for network type">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterTypeUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>
+                        <li id="filterTypeNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text" for="filterBandBtn">BAND</label>
+                  <div class="dropdown" id="filterBand">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterBandBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="filterBandMenu">
+                      <span id="filterBandSelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterBandBtn" role="menu" id="filterBandMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterBandSearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for network band">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterBandUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>
+                        <li id="filterBandNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text">FREQUENCY</label>
+                  <div class="dropdown" id="filterFrequency">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterFrequencyBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="filterFrequencyMenu">
+                      <span id="filterFrequencySelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterFrequencyBtn" role="menu" id="filterFrequencyMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterFrequencySearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for frequency">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterFrequencyUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>                      
+                        <li id="filterFrequencyNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text" for="filterNbBtn">NB</label>
+                  <div class="dropdown" id="filterNb">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterNbBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="filterNbMenu">
+                      <span id="filterNbSelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterNbBtn" role="menu" id="filterNbMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterNbSearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for NodeB ID">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterNbUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>
+                        <li id="filterNbNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mt-0">
+                  <label class="form-label text-secondary small-text" for="filterCellBtn">CELL</label>
+                  <div class="dropdown" id="filterCell">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex align-items-center justify-content-between" type="button" id="filterCellBtn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="filterCellMenu">
+                      <span id="filterCellSelected">All</span>
+                    </button>
+                    <div class="dropdown-menu pt-0 w-100" aria-labelledby="filterCellBtn" role="menu" id="filterCellMenu">
+                      <ul class="pt-0 mb-0 list-unstyled">
+                        <li class="p-2 border-bottom border-secondary-subtle">
+                          <input type="text" class="form-control form-control-sm border-secondary" id="filterCellSearch" placeholder="Type to search..." autocomplete="off" aria-label="Search for Cell">
+                        </li>
+                      </ul>
+                      <ul class="dropdown-menu-scrollable overflow-y-auto mb-0 list-unstyled" id="filterCellUL">
+                        <li>
+                          <button class="dropdown-item" role="menuitem" data-value="">All</button>
+                        </li>
+                        <li id="filterCellNoResults" class="dropdown-item text-muted d-none user-select-none">No matches found</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <button id="btnClearFilters" class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-x-lg me-1"></i>Clear filters
+                </button>
+                <button id="btnSaveMap" class="btn btn-sm btn-success">
+                  <i class="bi bi-save me-1"></i>Save map
+                </button>
+              </div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-7 col-xl-8 col-xxl-9 d-flex flex-grow-1" data-bs-theme="light"> <!-- element either spanning all 12/12 columns on screen-width < 768px, spanning 7/12 columns on screen-width >= 768px, spanning 8/12 columns on screen-width >= 1200 and spanning 9/12 columns on screen-width >= 1400px and flexible & fills the remaining screen height -->
-        <div id="map" class="rounded-4 shadow-none z-0 d-flex flex-grow-1"></div> <!-- map with 1rem border radius, no shadow, z-index of 0 and flexible & fills the remaining screen height -->
+      <div class="col-12 col-md-7 col-xl-8 col-xxl-9 d-none" id="mapColumn">
+        <div class="row" data-bs-theme="light">
+          <div class="col-12">
+            <div id="map" class="rounded-4 shadow-none z-0 d-flex flex-grow-1" role="region" aria-label="Cell tower data map"></div>
+          </div>
+        </div>
+        <div class="row d-md-none mt-3" id="btnRow">
+          <div class="col-12">
+            <button id="btnOpenFilters" aria-label="open data and filters panel" type="button" class="btn border-secondary-subtle bg-secondary-subtle w-100 rounded-pill"><span id="btnOpenFiltersText"><i class="bi bi-funnel me-2"></i>Data &amp; Filters</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4 col-xxl-3 d-none m-auto" id="consentColumn">
+        <div class="card rounded-4 mt-3" id="consentCard">
+          <div class="card-body ps-3 pt-3 pb-3 pe-0">
+            <h5 class="card-title">Welcome to Cell Data Viewer</h5>
+            <p class="card-text mb-3 overflow-y-auto overflow-x-hidden" id="consentTxt">This page centers around an interactive map which uses map data from the external servers of the OpenStreetMap Foundation (UK) and ESRI Inc. (US). Your consent is therefore required before your browser can send requests to these external services. These requests transmit potentially identifying information to these companies. This includes the location of the requested map sections, your public IP address, information about your operating system, and information about your browser. Please see the privacy policy for further information. Your consent is valid for the next 30 days or until there is a significant change regarding map data, whichever comes first. Both the consent itself and the time of consent are stored on your device. You can find more information about the data stored on your device in the privacy policy. After you have given consent the map will load and a prompt to share your location will appear. This location information will only be used to initially center the map on your location from your next visit.</p>
+            <button type="button" class="btn btn-primary me-3" id="btnConsent">Accept</button>  
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
+  <footer class="text-secondary px-3 py-2 border-top border-secondary d-flex justify-content-between align-items-center">
+    <div>
+      <button data-bs-toggle="modal" data-bs-target="#imprintModal" class="btn btn-link btn-sm text-decoration-none text-secondary p-0 border-0 align-top">Imprint</button><small class="align-top"> | </small><button data-bs-toggle="modal" data-bs-target="#privacyPolicyModal" class="btn btn-link btn-sm text-decoration-none text-secondary p-0 border-0 align-top">Privacy Policy</button>
+    </div>
+    <button type="button" id="themeToggle" class="btn btn-link text-secondary p-0" aria-label="Switch to light theme">
+      <i class="bi bi-moon-fill" id="themeIcon"></i>
+    </button>
+  </footer>
   
-  <div class="modal fade" id="emptyMapModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> <!-- model to show when user wants to save an empty map which can fade in & out and needs to be acknowledged through a static backdrop-->
+  <div class="modal fade" id="emptyMapModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="emptyMapModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5 cursor-default" id="staticBackdropLabel">Map save</h1>
+          <h1 class="modal-title fs-5 cursor-default" id="emptyMapModalLabel">Map save</h1>
         </div>
         <div class="modal-body">
           <p>No visible points to save on the map.</p>
@@ -332,44 +394,429 @@
     </div>
   </div>
 
-  <div class="modal fade" id="successfulMapModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> <!-- model to show when user wants to save map with points on browsers that don't support save file dialog which can fade in & out and needs to be acknowledged through a static backdrop-->
+  <div class="modal fade" id="successfulMapModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="successfulMapModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5 cursor-default" id="staticBackdropLabel">Map save</h1>
+          <h1 class="modal-title fs-5 cursor-default" id="successfulMapModelLabel">Map save</h1>
         </div>
         <div class="modal-body cursor-default">
           <p id="successfulMapModelText"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-          <button type="button" class="btn btn-success" id="btnDownload">Yes</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="btnDownload">Download map</button>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="text-secondary px-3 py-2 border-top border-secondary d-flex justify-content-between align-items-center"> <!-- footer with gray text, padding left and right of 1rem, padding top and bottom of 0.5rem, border top with a light color as a flexbox which pushes the two items inside apart and vertically centers the items -->
-    <small><a href="#" data-bs-toggle="modal" data-bs-target="#imprintModal" class="text-decoration-none text-secondary">Impressum</a> | <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal" class="text-decoration-none text-secondary">Datenschutz</a></small>
-    <div id="themeToggle">
-      <label class="cursor-pointer small-text"> <!-- default cursor override and a custom small text -->
-        <i class="bi bi-moon-fill" id="themeIcon"></i> <!-- bootstrap icons moon -->
-      </label>
-    </div>
-  </footer>
-
-  <div class="modal fade" id="imprintModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true" aria-labelledby="helpModalLabel">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header navbar-bg py-2">
           <p class="navbar-brand fw-bold fs-5 navigation-link mb-0 py-1">Cell Data Viewer</p>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollbarGutterStable">
           <div class="container-fluid">
             <div class="row justify-content-center">
               <div class="col-12 col-xxl-6 text-center mt-3 mb-4">
-                <h1>Impressum</h1>
+                <h1 id="helpModalLabel">Wiki</h1>
+              </div>
+            </div>
+            <div class="row g-3 mb-3 text-center">
+              <h3>How can I save the points I collect to a CSV file?</h3>
+            </div>
+            <div class="row g-3 mb-3 justify-content-center">
+              <div class="col-12 col-xxl-6 p-0">
+                <div class="accordion" id="savePointsAccordion">
+                  <div class="accordion-item rounded-top-4">
+                    <h2 class="accordion-header rounded-top-4">
+                      <button class="accordion-button bg-secondary-subtle collapsed rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneSavePoints" aria-expanded="false" aria-controls="collapseOneSavePoints">
+                        CellMapper
+                      </button>
+                    </h2>
+                    <div id="collapseOneSavePoints" class="accordion-collapse collapse" data-bs-parent="#savePointsAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0 px-0 bg-transparent">Open the hamburger menu in the top left of the app (three horizontal lines).</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Tap on the "Settings" option to navigate to the settings of the app.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Enable the output to CSV file option, which can be found in the Main Settings section.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Use the record function of the app to collect data points. On each day you record data points, a new CSV file will be created with the collected data points. The CSV file will be updated with new data points as you collect them.</li>
+                              </ol>
+                              <div id="carouselCMCaptions" class="carousel slide help-imgs mx-auto">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselCMCaptions" data-bs-slide-to="0" class="active bg-danger" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselCMCaptions" data-bs-slide-to="1" aria-label="Slide 2" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselCMCaptions" data-bs-slide-to="2" aria-label="Slide 3" class="bg-danger"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="./assets/imgs/CM_CSV_01.jpg" class="d-block w-100" alt='Open the hamburger menu in the top left of the app (three horizontal lines).'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CM_CSV_02.jpg" class="d-block w-100" alt='Tap on the "Settings" option to navigate to the settings of the app.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CM_CSV_03.jpg" class="d-block w-100" alt='Enable the output to CSV file option, which can be found in the Main Settings section.'>
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCMCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselCMCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoSavePoints" aria-expanded="false" aria-controls="collapseTwoSavePoints">
+                        CoverageMap
+                      </button>
+                    </h2>
+                    <div id="collapseTwoSavePoints" class="accordion-collapse collapse" data-bs-parent="#savePointsAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>The "Signal Mapping" function needs the be configured in the CoverageMap Android app. This can either be done during the first time setup of the application or later from the "More" menu. You can choose to map signal data always while the app is in the background or only while the app is in the foreground.</p>
+                              
+                              <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0 px-0 bg-transparent">Tap on the "More" option on the right of the bottom navigation.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Tap on the "Signal Mapping" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Here you can configure the mapping of signal data points to your liking. The most importantly you need to change the "Contribute Data" option from "Never" to either "Always" or "While using the app". If permissions are missing you will be asked to grant them.</li>
+                              </ol>
+                              <div id="carouselCVMSMCaptions" class="carousel slide help-imgs mx-auto">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselCVMSMCaptions" data-bs-slide-to="0" class="active bg-danger" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselCVMSMCaptions" data-bs-slide-to="1" aria-label="Slide 2" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselCVMSMCaptions" data-bs-slide-to="2" aria-label="Slide 3" class="bg-danger"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="./assets/imgs/CVM_SM_01.jpg" class="d-block w-100" alt='On the start page of the CoverageMap Android application tap the more option on the right of the bottom navigation'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CVM_SM_02.jpg" class="d-block w-100" alt='On the more page tap on the signal mapping option'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CVM_SM_03.jpg" class="d-block w-100" alt='In the signal mapping menu you can adjust the signal mapping setting and activate signal mapping'>
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCVMSMCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselCVMSMCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeSavePoints" aria-expanded="false" aria-controls="collapseThreeSavePoints">
+                        G-MoN Pro
+                      </button>
+                    </h2>
+                    <div id="collapseThreeSavePoints" class="accordion-collapse collapse" data-bs-parent="#savePointsAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p class="mb-0">Use the record function of the app to collect data points. Each time you start a new recording session, a new CSV file will be created with the collected data points. The CSV file will be updated with new data points as you collect them.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item rounded-bottom-4">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle rounded-bottom-4 collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourSavePoints" aria-expanded="false" aria-controls="collapseFourSavePoints">
+                        Tower Collector
+                      </button>
+                    </h2>
+                    <div id="collapseFourSavePoints" class="accordion-collapse collapse" data-bs-parent="#savePointsAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom rounded-bottom-4 border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>Use the record function of the app to collect data points.</p>
+                              <p>After ending the recording, you can export the collected data points to a CSV file following these steps:</p>
+                              <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0 px-0 bg-transparent">Tap on the three-dots menu in the top right corner of the app.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">In the three-dots menu tap on the "Export" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">In the preferences menu tick the "CSV" option checkbox.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Tap on the "Export" button.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">At this point the CSV file is exported and can be opened in the web tool through the file picker of your Android device. But in the following pop-up you can select to just keep the CSV file on the device or to directly share it to another app or device. Depending on your selection the "Keep" button changes to a "Share" button.</li>
+                              </ol>
+                              <div id="carouselTCCCaptions" class="carousel slide help-imgs mx-auto">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide-to="0" class="active bg-danger" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide-to="1" aria-label="Slide 2" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide-to="2" aria-label="Slide 3" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide-to="3" aria-label="Slide 4" class="bg-danger"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="./assets/imgs/TC_CSV_01.jpg" class="d-block w-100" alt='Open the three-dots menu in the top right corner of the app.''>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_CSV_02.jpg" class="d-block w-100" alt='In the three-dots menu tap on the "Export" option.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_CSV_03.jpg" class="d-block w-100" alt='In the preferences menu tick the "CSV" option checkbox. Tap on the "Export" button.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_CSV_04.jpg" class="d-block w-100" alt='At this point the CSV file is exported and can be opened in the web tool through the file picker of your Android device. But in the following pop-up you can select to just keep the CSV file on the device or to directly share it to another app or device. Depending on your selection the "Keep" button changes to a "Share" button.'>
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselTCCCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>            
+            </div>   
+            <div class="row g-3 mb-3 text-center">
+              <h3>Where do I find the CSV files?</h3>
+            </div>
+            <div class="row g-3 mb-3 justify-content-center">
+              <div class="col-12 col-xxl-6 p-0">
+                <div class="accordion" id="filesAccordion">
+                  <div class="accordion-item rounded-top-4">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneFiles" aria-expanded="false" aria-controls="collapseOneFiles">
+                        CellMapper
+                      </button>
+                    </h2>
+                    <div id="collapseOneFiles" class="accordion-collapse collapse" data-bs-parent="#filesAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>The CSV files can be found on your Android device in the following folder: Internal Storage -> Android -> data -> cellmapper.net.cellmapper -> files</p>
+                              <div class="alert alert-dark" role="alert">
+                                Please note that if you use the web tool directly on an Android device the CSV files can't be opened directly from this folder via the file picker. This limitation is due to the security aspect that apps shouldn't be able to access storage regions of other apps. The only exception is the build in Android Files application (com.google.android.documentsui) when it's opened from the launcher (home screen & app menu) or via an activity launcher. This should not be confused with the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.files" target="_blank" rel="noopener noreferrer">Files by Google</a> application or any other manufacturer provided files application. With this Android Files application, it's possible to copy the CSV files from the above mentioned folder to another folder like Downloads, Documents or any other folder outside of the Android folder. Then the CSV files can be opened from the web tool via the file picker. If your Android device doesn't have a shortcut to the Android Files application by default it is possible to add one either via the <a href="https://play.google.com/store/apps/details?id=com.marc.files" target="_blank" rel="noopener noreferrer">Files shortcut app</a> from <a href="https://marc-apps.nl/" target="_blank" rel="noopener noreferrer">Marc apps & software</a> / <a href="https://github.com/Marc-JB" target="_blank" rel="noopener noreferrer">Marc-JB</a> (easy option) or via an activity launcher app such as <a href="https://play.google.com/store/apps/details?id=de.szalkowski.activitylauncher" target="_blank" rel="noopener noreferrer">Activity Launcher</a> by <a href="https://github.com/butzist" target="_blank" rel="noopener noreferrer">Adam M. Szalkowski</a> and add a shortcut to the com.android.documentsui.files.FilesActivity activity to the home screen (advanced option).
+                                <br><br>
+                                If you want to use the web tool on a computer you can connect your Android device via a USB cable to access the CSV files. Alternatively, you can share the CSV files to a computer from the Android Files application described above.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoFiles" aria-expanded="false" aria-controls="collapseTwoFiles">
+                        CoverageMap
+                      </button>
+                    </h2>
+                    <div id="collapseTwoFiles" class="accordion-collapse collapse" data-bs-parent="#filesAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>The CSV file with all collected data can be downloaded from the <a href="https://map.coveragemap.com/" target="_blank" rel="noopener noreferrer">CoverageMap website</a>.</p>
+                              <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0 px-0 bg-transparent">Open the menu with the hamburger button in the top left.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">From the menu choose the "View My Tests" option. Here make sure that you are logged in with the Apple or Google account that you used to log in on your Android device.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Next click on the "Exports Results" option in the top right.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Finally, click on the "Signal Data" option to download the CSV file with all of the colleted signal points.</li>
+                              </ol>
+                              <div id="carouselCVMCaptions" class="carousel slide mx-auto">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide-to="0" class="active bg-danger" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide-to="1" aria-label="Slide 2" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide-to="2" aria-label="Slide 3" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide-to="3" aria-label="Slide 4" class="bg-danger"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="./assets/imgs/CVM_CSV_01.jpg" class="d-block w-100" alt='Open the menu with the hamburger button in the top left.''>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CVM_CSV_02.jpg" class="d-block w-100" alt='From the menu choose the "View My Tests" option. Here make sure that you are logged in with the Apple or Google account that you used to log in on your Android device.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CVM_CSV_03.jpg" class="d-block w-100" alt='Next click on the "Exports Results" option in the top right.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/CVM_CSV_04.jpg" class="d-block w-100" alt='Finally, click on the "Signal Data" option to download the CSV file with all of the colleted signal points.'>
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselCVMCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeFiles" aria-expanded="false" aria-controls="collapseThreeFiles">
+                        G-MoN Pro
+                      </button>
+                    </h2>
+                    <div id="collapseThreeFiles" class="accordion-collapse collapse" data-bs-parent="#filesAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>The CSV files can be found on your Android device in the following folder: Internal Storage -> Android -> data -> de.carknue.gmonpro -> files</p>
+                              <div class="alert alert-dark" role="alert">
+                                <p>Please note that if you use the web tool directly on an Android device the CSV files can't be opened directly from this folder via the file picker. This limitation is due to the security aspect that apps shouldn't be able to access storage regions of other apps. The only exception is the build in Android Files application (com.google.android.documentsui) when it's opened from the launcher (home screen & app menu) or via an activity launcher. This should not be confused with the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.files" target="_blank" rel="noopener noreferrer">Files by Google</a> application or any other manufacturer provided files application. With this Android Files application, it's possible to copy the CSV files from the above mentioned folder to another folder like Downloads, Documents or any other folder outside of the Android folder. Then the CSV files can be opened from the web tool via the file picker. If your Android device doesn't have a shortcut to the Android Files application by default it is possible to add one either via the <a href="https://play.google.com/store/apps/details?id=com.marc.files" target="_blank" rel="noopener noreferrer">Files shortcut app</a> from <a href="https://marc-apps.nl/" target="_blank" rel="noopener noreferrer">Marc apps & software</a> / <a href="https://github.com/Marc-JB" target="_blank" rel="noopener noreferrer">Marc-JB</a> (easy option) or via an activity launcher app such as <a href="https://play.google.com/store/apps/details?id=de.szalkowski.activitylauncher" target="_blank" rel="noopener noreferrer">Activity Launcher</a> by <a href="https://github.com/butzist" target="_blank" rel="noopener noreferrer">Adam M. Szalkowski</a> and add a shortcut to the com.android.documentsui.files.FilesActivity activity to the home screen (advanced option).</p>
+                                <p>If you want to use the web tool on a computer you can connect your Android device via a USB cable to access the CSV files. Alternatively, you can share the CSV files to a computer from the Android Files application described above.</p>
+                                <p>An additional path for G-MoN Pro is that you can find the CSV files in the app by following these steps:</p>
+                                <ol class="list-group list-group-numbered">
+                                  <li class="list-group-item border-0 px-0 bg-transparent">Open the three dot menu in the top right corner of the app.</li>
+                                  <li class="list-group-item border-0 px-0 bg-transparent">In the three dots menu select the "File Manager" option.</li>
+                                  <li class="list-group-item border-0 px-0 bg-transparent">In the file manager you can see, select and share the CSV files to other apps and devices. For example you can share them to a network/cloud storage location.</li>
+                                </ol>
+                                <p>You might be able to open the CSV files from a network/cloud storage location via the file picker on your Android device depending on the app you use for the network/cloud storage location.</p>
+                                <p>If you want to use the web tool on a computer you can connect your Android device via a USB cable to access the CSV files. Alternatively, you can share the CSV files to a computer from the G-MoN Pro application or the Android Files application described above.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item rounded-bottom-4">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle rounded-bottom-4 collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourFiles" aria-expanded="false" aria-controls="collapseFourFiles">
+                        Tower Collector
+                      </button>
+                    </h2>
+                    <div id="collapseFourFiles" class="accordion-collapse collapse" data-bs-parent="#filesAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom rounded-bottom-4 border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <p>When you use the Export function for the first time, you need to create and/or select a folder in which the app will store the export files every time you use the Export function.</p>
+                              <p>If you have trouble finding that folder again, follow these steps to rediscover the folder you have selected for the export files:</p>
+                              <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0 px-0 bg-transparent">Open the three-dots menu in the top right corner of the app.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">In the three-dots menu select the "Preferences" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">In the preferences menu tap on the "General" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">Under general tap on the "Change storage location" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">In the pop-up select the "Proceed" option.</li>
+                                <li class="list-group-item border-0 px-0 bg-transparent">You can now see the selected folder and the path to that folder in the folder picker.</li>
+                              </ol>
+                              <div id="carouselTCRCaptions" class="carousel slide help-imgs mx-auto">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="0" class="active bg-danger" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="1" aria-label="Slide 2" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="2" aria-label="Slide 3" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="3" aria-label="Slide 4" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="4" aria-label="Slide 5" class="bg-danger"></button>
+                                  <button type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide-to="5" aria-label="Slide 6" class="bg-danger"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_01.jpg" class="d-block w-100" alt='Open the three-dots menu in the top right corner of the app.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_02.jpg" class="d-block w-100" alt='In the three-dots menu tap on the "Preferences" option.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_03.jpg" class="d-block w-100" alt='In the preferences menu tap on the "General" option.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_04.jpg" class="d-block w-100" alt='Under general tap on the "Change storage location" option.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_05.jpg" class="d-block w-100" alt='In the pop-up select the "Proceed" option.'>
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="./assets/imgs/TC_Folder_Rediscover_06.jpg" class="d-block w-100" alt='You can now see the selected folder and the path to that folder in the folder picker.'>
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselTCRCaptions" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-danger" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer navbar-bg">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="imprintModal" tabindex="-1" aria-hidden="true" aria-labelledby="imprintModalLabel">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header navbar-bg py-2">
+          <p class="navbar-brand fw-bold fs-5 navigation-link mb-0 py-1">Cell Data Viewer</p>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body scrollbarGutterStable">
+          <div class="container-fluid">
+            <div class="row justify-content-center">
+              <div class="col-12 col-xxl-6 text-center mt-3 mb-4">
+                <h1 id="imprintModalLabel">Imprint</h1>
               </div>
             </div>
             <div class="row g-3 mb-3 justify-content-center">
@@ -377,25 +824,25 @@
                 <div class="accordion" id="imprintAccordion">
                   <div class="accordion-item rounded-top-4">
                     <h2 class="accordion-header">
-                      <button class="accordion-button rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneImprint" aria-expanded="true" aria-controls="collapseOneImprint">
-                        Allgemeine Informationen & Anschrift
+                      <button class="accordion-button bg-secondary-subtle rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneImprint" aria-expanded="true" aria-controls="collapseOneImprint">
+                        General Information & Address
                       </button>
                     </h2>
                     <div id="collapseOneImprint" class="accordion-collapse collapse show" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Allgemeine Informationen & Anschrift</h3>
-                                <p><b>Informationen und Offenlegung gemäß &sect;5 (1) ECG, &sect; 25 MedienG, &sect; 63 GewO und &sect; 14 UGB</b></p>
+                                <h3>General Information & Address</h3>
+                                <p><b>Information and disclosure pursuant to Section 5 (1) ECG and Section 25 MedienG</b></p>
                                 <ul class="list-group list-group-flush">
-                                  <li class="list-group-item border-0">Webseitenbetreiber: Florian Jeschek</li>
-                                  <li class="list-group-item border-0">Anschrift: Hohenfelsplatz 2/7 1120 Wien Österreich</li>
-                                  <li class="list-group-item border-0">E-Mail: <a href="mailto:contact@nerdtech.one">contact@nerdtech.one</a></li>
-                                  <li class="list-group-item border-0">Anwendbare Rechtsvorschrift: <a href="https://www.ris.bka.gv.at" target="_blank">www.ris.bka.gv.at</a></li>
+                                  <li class="list-group-item border-0 bg-transparent">Website operator: Florian Jeschek</li>
+                                  <li class="list-group-item border-0 bg-transparent">Address: Hohenfelsplatz 2/7 1120 Vienna Austria</li>
+                                  <li class="list-group-item border-0 bg-transparent">E-Mail: <a href="mailto:contact@nerdtech.one">contact@nerdtech.one</a></li>
+                                  <li class="list-group-item border-0 bg-transparent">Applicable legal provision: <a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener noreferrer">www.ris.bka.gv.at</a></li>
                                 </ul>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://www.fairesrecht.at/kostenlos-impressum-erstellen-generator.php" target="_blank">Impressum Generator</a> in Kooperation mit <a href="https://rechtsanwaltwien.com/arzthaftung" target="_blank">Medizinrecht Rechtsanwalt</a></p>
+                                <p class="mb-0">Further legal notices, disclaimers and license information can be found in the following sections.</p>
                               </div>
                             </div>
                           </div>
@@ -406,19 +853,18 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoImprint" aria-expanded="true" aria-controls="collapseTwoImprint">
-                        Online Streitbeilegung
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoImprint" aria-expanded="true" aria-controls="collapseTwoImprint">
+                        Copyright
                       </button>
                     </h2>
                     <div id="collapseTwoImprint" class="accordion-collapse collapse" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Online Streitbeilegung</h3>
-                                <p>Verbraucher, welche in Österreich oder in einem sonstigen Vertragsstaat der ODR-VO niedergelassen sind, haben die Möglichkeit Probleme bezüglich dem entgeltlichen Kauf von Waren oder Dienstleistungen im Rahmen einer Online-Streitbeilegung (nach OS, AStG) zu lösen. Die Europäische Kommission stellt eine Plattform hierfür bereit: https://ec.europa.eu/consumers/odr</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://www.fairesrecht.at/kostenlos-impressum-erstellen-generator.php" target="_blank">Impressum Generator</a> in Kooperation mit <a href="https://rechtsanwaltwien.com/arzthaftung" target="_blank">Medizinrecht Rechtsanwalt</a></p>
+                                <h3>Copyright</h3>
+                                <p>The content of this website is subject to various intellectual property rights (e.g., copyright) to the extent legally permissible. Any use or distribution of provided material that is prohibited by copyright law requires the written consent of the website operator.</p>
                               </div>
                             </div>
                           </div>
@@ -429,19 +875,19 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeImprint" aria-expanded="false" aria-controls="collapseThreeImprint">
-                        Urheberrecht
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeImprint" aria-expanded="false" aria-controls="collapseThreeImprint">
+                        Disclaimer
                       </button>
                     </h2>
                     <div id="collapseThreeImprint" class="accordion-collapse collapse" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Urheberrecht</h3>
-                                <p>Die Inhalte dieser Webseite unterliegen, soweit dies rechtlich möglich ist, diversen Schutzrechten (z.B dem Urheberrecht). Jegliche Verwendung/Verbreitung von bereitgestelltem Material, welche urheberrechtlich untersagt ist, bedarf schriftlicher Zustimmung des Webseitenbetreibers.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://www.fairesrecht.at/kostenlos-impressum-erstellen-generator.php" target="_blank">Impressum Generator</a> in Kooperation mit <a href="https://rechtsanwaltwien.com/arzthaftung" target="_blank">Medizinrecht Rechtsanwalt</a></p>
+                                <h3>Disclaimer</h3>
+                                <p>Despite careful review of the content, the operator of this website assumes no liability for the content of external links. The operators of the linked websites are solely responsible for their content. Should you nevertheless become aware of any outgoing links that lead to a website with illegal activity/information, please notify us so that we can remove them immediately in accordance with Section 17 Paragraph 2 of the Austrian E-Commerce Act (ECG).</p>
+                                <p>The operator of this website takes the utmost care to respect the copyrights of third parties. Should you nevertheless become aware of a copyright infringement, please inform us accordingly. Upon notification of such infringements, we will remove the affected content immediately.</p>
                               </div>
                             </div>
                           </div>
@@ -452,20 +898,20 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFiveImprint" aria-expanded="false" aria-controls="collapseFiveImprint">
-                        Haftungsausschluss
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFiveImprint" aria-expanded="false" aria-controls="collapseFiveImprint">
+                        Trademark Notice
                       </button>
                     </h2>
                     <div id="collapseFiveImprint" class="accordion-collapse collapse" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Haftungsausschluss</h3>
-                                <p>Trotz sorgfältiger inhaltlicher Kontrolle übernimmt der Webseitenbetreiber dieser Webseite keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. Sollten Sie dennoch auf ausgehende Links aufmerksam werden, welche auf eine Webseite mit rechtswidriger Tätigkeit/Information verweisen, ersuchen wir um dementsprechenden Hinweis, um diese nach § 17 Abs. 2 ECG umgehend zu entfernen.</p>
-                                <p>Die Urheberrechte Dritter werden vom Betreiber dieser Webseite mit größter Sorgfalt beachtet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden derartiger Rechtsverletzungen werden wir den betroffenen Inhalt umgehend entfernen.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://www.fairesrecht.at/kostenlos-impressum-erstellen-generator.php" target="_blank">Impressum Generator</a> in Kooperation mit <a href="https://rechtsanwaltwien.com/arzthaftung" target="_blank">Medizinrecht Rechtsanwalt</a></p>
+                                <h3>Trademark Notice</h3>
+                                <p class="mb-0">CellMapper is a trademark of CellMapper Services Limited</p>
+                                <p class="mb-0">CoverageMap is a trademark of CoverageMap LLC</p>
+                                <p class="mb-0">Android is a trademark of Google LLC</p>
                               </div>
                             </div>
                           </div>
@@ -476,18 +922,18 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourImprint" aria-expanded="false" aria-controls="collapseFourImprint">
-                        Markenhinweise
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourImprint" aria-expanded="false" aria-controls="collapseFourImprint">
+                        Image credits
                       </button>
                     </h2>
                     <div id="collapseFourImprint" class="accordion-collapse collapse" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Markenhinweise</h3>
-                                <p class="mb-0">CellMapper ist eine Marke der CellMapper Services Limited</p>
+                                <h3>Image credits</h3>
+                                <p>The icons are <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap Icons</a> from the Bootstrap team and contributors under the <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.</p>
                               </div>
                             </div>
                           </div>
@@ -498,18 +944,22 @@
 
                   <div class="accordion-item rounded-bottom-4">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed rounded-bottom-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixImprint" aria-expanded="false" aria-controls="collapseSixImprint">
-                        Bildernachweis
+                      <button class="accordion-button bg-secondary-subtle collapsed rounded-bottom-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixImprint" aria-expanded="false" aria-controls="collapseSixImprint">
+                        Open Source Licenses
                       </button>
                     </h2>
                     <div id="collapseSixImprint" class="accordion-collapse collapse" data-bs-parent="#imprintAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3 rounded-bottom-4">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3 rounded-bottom-4">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Bildernachweis</h3>
-                                <p>Die Icons sind <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a> vom Bootstrap Team und Mitwirkenden unter der <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank">MIT License</a>.</p>
+                                <h3 class="h3-super-size">Open Source Licenses</h3>
+                                <p>The following open-source projects are used for this website:</p>
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item border-0 bg-transparent"><a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap from the Bootstrap team and contributors</a> - licensed under the <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+                                  <li class="list-group-item border-0 bg-transparent"><a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet from Vladimir Agafonkin and contributors</a> - licensed under the <a href="https://github.com/Leaflet/Leaflet/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">BSD 2-Clause License</a></li>
+                                </ul>
                               </div>
                             </div>
                           </div>
@@ -523,24 +973,24 @@
           </div>
         </div>
         <div class="modal-footer navbar-bg">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-hidden="true" aria-labelledby="privacyPolicyModalLabel">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header navbar-bg py-2">
           <p class="navbar-brand fw-bold fs-5 navigation-link mb-0 py-1">Cell Data Viewer</p>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollbarGutterStable">
           <div class="container-fluid">
             <div class="row justify-content-center">
               <div class="col-12 col-xxl-6 text-center mt-3 mb-4">
-                <h1>Datenschutzerklärung</h1>
+                <h1 id="privacyPolicyModalLabel">Privacy Policy</h1>
               </div>
             </div>
             <div class="row g-3 mb-3 justify-content-center">
@@ -548,20 +998,20 @@
                 <div class="accordion" id="privacyPolicyAccordion">
                   <div class="accordion-item rounded-top-4">
                     <h2 class="accordion-header">
-                      <button class="accordion-button rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnePrivacyPolicy" aria-expanded="true" aria-controls="collapseOnePrivacyPolicy">
-                        Allgemeine Informationen
+                      <button class="accordion-button bg-secondary-subtle rounded-top-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnePrivacyPolicy" aria-expanded="true" aria-controls="collapseOnePrivacyPolicy">
+                        General information
                       </button>
                     </h2>
                     <div id="collapseOnePrivacyPolicy" class="accordion-collapse collapse show" data-bs-parent="#privacyPolicyAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Allgemeine Informationen</h3>
-                                <p>In folgender Datenschutzerklärung informiere ich Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Webseite. Ich erhebe und verarbeite personenbezogene Daten nur auf Grundlage der gesetzlichen Bestimmungen (Datenschutzgrundverordnung, Telekommunikationsgesetz 2003).</p>
-                                <p>Sobald Sie als Benutzer auf diese Webseite zugreifen oder diese besuchen wird Ihre IP-Adresse, Beginn sowie Beginn und Ende der Sitzung erfasst. Dies ist technisch bedingt und stellt somit ein berechtigtes Interesse iSv Art 6 Abs 1 lit f DSGVO.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://fairesrecht.at/kostenlos-datenschutzerklaerung-erstellen-generator.php" target="_blank">DSGVO Datenschutz Generator</a> in Kooperation mit <a href="https://kredit123.at/home" target="_blank">Online Kreditvergleich</a></p>
+                                <h3>General information</h3>
+                                <p>This privacy policy informs you about the type, scope, and purpose of the processing of personal data on this website. The website is operated with the aim of providing a tool that allows users to analyze their collected cellular network data points.</p>
+                                <p>When you access the website, the web server or hosting provider collects technically necessary log data, in particular the IP address, date and time of the request, browser and operating system information, referrer, and the HTTP status code. This data is processed to ensure the functionality, security, and stability of the website. The legal basis for this processing is Article 6(1)(f) GDPR (legitimate interest).</p>
+                                <p>Personal data is processed only to the extent necessary for the operation, security, and handling of inquiries, and the provision of the functions of this website. No further processing for advertising or other purposes takes place.</p>
                               </div>
                             </div>
                           </div>
@@ -572,27 +1022,21 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoPrivacyPolicy" aria-expanded="true" aria-controls="collapseTwoPrivacyPolicy">
-                        Kontakt
+                      <button class="accordion-button bg-secondary-subtle shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoPrivacyPolicy" aria-expanded="true" aria-controls="collapseTwoPrivacyPolicy">
+                        Contact
                       </button>
                     </h2>
                     <div id="collapseTwoPrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Kontakt</h3>
-                                <p>Webseitenbetreiber:</p>
-                                <p>Florian Jeschek</p>
-                                <p>Sie erreichen mich unter folgenden Kontaktdaten:</p>
-                                <p>Email:                                    
-                                  <a href="mailto:contact@nerdtech.one" class="text-decoration-none">
-                                    contact@nerdtech.one
-                                  </a>
-                                </p>
-                                <p>Wenn Sie mich per Email kontaktieren, dann werden die von Ihnen an übermittelten Daten zwecks Bearbeitung Ihrer Anfrage oder für den Fall von weiteren Anschlussfragen gespeichert. Es erfolgt, ohne Ihre Einwilligung, keine Weitergabe Ihrer übermittelten Daten.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://fairesrecht.at/kostenlos-datenschutzerklaerung-erstellen-generator.php" target="_blank">DSGVO Datenschutz Generator</a> in Kooperation mit <a href="https://kredit123.at/home" target="_blank">Online Kreditvergleich</a></p>
+                                <h3>Contact</h3>
+                                <p>Website operator: Florian Jeschek</p>
+                                <p>Address: Hohenfelsplatz 2/7 1120 Vienna Austria</p>
+                                <p>E-Mail: <a href="mailto:contact@nerdtech.one" class="text-decoration-none">contact@nerdtech.one</a></p>
+                                <p>When you contact me by email, the data you provide will be processed to handle your request. This processing is for the purpose of responding to your message and, if necessary, for further correspondence. Your data will only be used for this purpose and will not be shared with third parties without your consent, unless there is a legal obligation to do so. Email correspondence is stored on the servers of my hosting provider. You can find more information about this in the following section "Hosting with Easyname".</p>
                               </div>
                             </div>
                           </div>
@@ -603,29 +1047,21 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreePrivacyPolicy" aria-expanded="false" aria-controls="collapseThreePrivacyPolicy">
-                        Hosting mit Easyname
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreePrivacyPolicy" aria-expanded="false" aria-controls="collapseThreePrivacyPolicy">
+                        Hosting with Easyname
                       </button>
                     </h2>
                     <div id="collapseThreePrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Hosting mit Easyname</h3>
-                                <p>Es werden in sog. Logfiles folgende Daten, die Ihr Browser übermittelt, erhoben:</p>
-                                <p>IP-Adresse, die Adresse der vorher besuchten Website (Referer Anfrage-Header), Datum und Uhrzeit der Anfrage, Zeitzonendifferenz zur Greenwich Mean Time, Inhalt der Anforderung, HTTP-Statuscode, übertragene Datenmenge, Website, von der die Anforderung kommt und Informationen zu Browser und Betriebssystem.</p>
-                                <p>Das ist erforderlich, um die Website anzuzeigen und die Stabilität und Sicherheit zu gewährleisten. Dies entspricht dem berechtigten Interesse im Sinne des Art. 6 Abs. 1 S. 1 lit. f DSGVO.</p>
-                                <p>In den Statistiken des Hosters werden die folgenden Daten bereitgestellt:</p>
-                                <p>Top 10 der am häufigsten verwendeten IP-Adressen welche diese Website besuchen. Top 10 der am häufigsten verwendeten Browser, welche diese Website besuchen. Top 10 der am häufigsten verwendeten Betriebssysteme, welche diese Website besuchen.</p>
-                                <p>Ich setzen für die Zurverfügungstellung dieser Website folgenden Hoster ein:</p>
-                                <p>easyname GmbH</p>
-                                <p>Canettistraße 5/10</p>
-                                <p>1100 Wien</p>
-                                <p>Österreich</p>
-                                <p>Die Nutzung eines Hosting Providers entspricht dem berechtigten Interesse im Sinne des Art. 6 Abs. 1 S. 1 lit. f DSGVO, selbst keinen Server in den eigenen Räumlichkeiten vorhalten zu müssen. Die Serverstandorte sind in Österreich, Deutschland und der Schweiz. Sie haben das Recht der Verarbeitung zu widersprechen. Ob der Widerspruch erfolgreich ist, ist im Rahmen einer Interessenabwägung zu ermitteln. Die Daten werden gelöscht, sobald der Zweck der Verarbeitung entfällt. Die Verarbeitung der unter diesem Abschnitt angegebenen Daten ist weder gesetzlich noch vertraglich vorgeschrieben. Die Funktionsfähigkeit der Website ist ohne die Verarbeitung nicht gewährleistet.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://opr.vc" target="_blank">open privacy by opr.vc</a></p>
+                                <h3>Hosting with Easyname</h3>
+                                <p>I use the hosting provider easyname GmbH, Canettistraße 5/10, 1100 Vienna, Austria, to operate this website. The provider processes technically necessary server data that is automatically generated when the website is accessed.</p>
+                                <p>This data includes: the user's IP address, the date and time of the request, browser and operating system information, referrer URL, the amount of data transferred by the browser, the HTTP status code, and information about the requested page. This log data is processed to ensure operational functionality, to detect misuse, and for error analysis. The legal basis for this is Article 6(1)(f) GDPR.</p>
+                                <p>The hosting provider provides me with the following statistics: Top 10 most frequently used IP addresses visiting this website. Top 10 most frequently used browsers visiting this website. Top 10 most frequently used operating systems visiting this website.</p>
+                                <p>This hosting provider is the recipient of your personal data and acts as a data processor on my behalf. This is in my legitimate interest, as defined in Article 6(1)(f) of the GDPR, of not having to maintain a server on my own premises. The hosting provider may use server locations in Austria, Germany, or Switzerland. The operator has no direct influence on the specific server and data processing structure of the hosting provider; however, the hosting company is subject to applicable data protection and security requirements.</p>
                               </div>
                             </div>
                           </div>
@@ -636,30 +1072,49 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFivePrivacyPolicy" aria-expanded="false" aria-controls="collapseFivePrivacyPolicy">
-                        Kartendaten
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFivePrivacyPolicy" aria-expanded="false" aria-controls="collapseFivePrivacyPolicy">
+                        Map data
                       </button>
                     </h2>
                     <div id="collapseFivePrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Kartendaten</h3>
-                                <p>Um die Funktionalität dieser Webseite bereitzustellen werden die jeweils aktuellen Kartendaten der Dienste openstreetmap.org und arcgis.com über deren Tile-Server als Bilddateien abgerufen. </p>
-                                <p>Bei OpenStreetMap handelt es sich um einen Kartendienst welcher bereitgestellt wird von der</p>
-                                <p>OpenStreetMap Foundation</p>
-                                <p>St John's Innovation Centre, Cowley Road,</p> 
-                                <p>Cambridge, CB4 0WS, England, United Kingdom.</p>
-                                <p>Die OpenStreetMap Foundation bietet unter <a href="https://osmfoundation.org/wiki/Privacy_Policy" rel="nofollow noopener" target="_blank">https://osmfoundation.org/wiki/Privacy_Policy</a> weitergehende Datenschutzinformationen an.</p>
-                                <p>Bei ArcGIS handelt es sich um einen Kartendienst welcher bereitgestellt wird von der</p>
-                                <p>ESRI Inc.</p>
-                                <p>380 New York Street,</p> 
-                                <p>Redlands, 92373, California, USA.</p>
-                                <p>Die ESRI Inc. bietet unter <a href="https://trust.arcgis.com/en/privacy/privacy-tab-intro.htm" rel="nofollow noopener" target="_blank">https://trust.arcgis.com/en/privacy/privacy-tab-intro.htm</a> weitergehende Datenschutzinformationen an.</p>
-                                <p>Um die Verwendung der aktuellen Kartendaten sicherzustellen wird auf sogenannte Tile-Server zurückgegriffen. Dabei werden entsprechende Dateien von einem Drittserver geladen, der Ihre IP-Adresse erfasst. Ich haben dabei keinen Einfluss darauf, ob Ihre IP-Adresse durch Dritte zu statistischen Zwecken verarbeitet wird.</p>
-                                <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f) DSGVO. Das berechtigte Interesse liegt in der Verwendung von aktuellem Kartenmaterial als wichtige Grundlage für die Funktionalität dieser Webseite.</p>
+                                <h3>Map data</h3>
+                                <p>To provide the interactive map function, map data from OpenStreetMap and ESRI is loaded via their external tile servers. These services are required for displaying the map and enable the geographic representation of the collected data points.</p>
+                                <p>OpenStreetMap is operated by the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom. Further information on data protection can be found here: <a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener noreferrer">OpenStreetMap Privacy Policy</a>.</p>
+                                <p>ArcGIS is offered by ESRI Inc., 380 New York Street, Redlands, CA 92373, USA. Further information on data protection can be found here: <a href="https://trust.arcgis.com/en/privacy/privacy-tab-intro.htm" target="_blank" rel="noopener noreferrer">ESRI Privacy Policy</a>.</p>
+                                <p>When loading map data, your browser will send requests to these third-party servers. This process collects technical information such as your IP address, operating system, operating system version, browser, and browser version, and transmits the requested map area to the respective provider. This data is processed by the map services in accordance with their own privacy policies. The operator has no direct influence on how these third-party providers process the data.</p>
+                                <p>The use of these map services is based on legitimate interest pursuant to Article 6(1)(f) GDPR, as the map is an essential function of the website. Data transmission to the map providers is technically necessary for displaying the interactive map with the most up-to-date map data.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button bg-secondary-subtle collapsed shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixPrivacyPolicy" aria-expanded="false" aria-controls="collapseSixPrivacyPolicy">
+                        Data stored on your device
+                      </button>
+                    </h2>
+                    <div id="collapseSixPrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3">
+                        <div class="container-fluid px-0">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <div class="text-center px-3 h-100">
+                                <h3 class="h3-super-size">Data stored on your device</h3>
+                                <p>Only functional data is stored on your device. This data will not be transferred to any servers. The data is only used by your webbrowser in combination with the JavaScript code provided by this website to enable basic features.</p>
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item border-0 bg-transparent">consentGivenVx - A boolean value (true/false) to indicate whether consent was given to contact the servers of the external companies who provide the map data. This entry will only be created if the user has interacted with the theme selector. This entry will only be created after clicking on the accept button.</li>
+                                  <li class="list-group-item border-0 bg-transparent">consentTimeVx - A numerical value to indicate at which point in time the consent was given to contact the servers of the external companies who provide the map data. This entry will only be created after clicking on the accept button.</li>
+                                  <li class="list-group-item border-0 bg-transparent">savedTheme - A string value to indicate which theme was set (dark/light). This entry will only be created after the first interaction with the theme selector. By default the theme of this web tool follows the theme of the browser.</li>
+                                </ul>
                               </div>
                             </div>
                           </div>
@@ -670,28 +1125,28 @@
 
                   <div class="accordion-item rounded-bottom-4">
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed rounded-bottom-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixPrivacyPolicy" aria-expanded="false" aria-controls="collapseSixPrivacyPolicy">
-                        Ihre Rechte als Betroffener
+                      <button class="accordion-button bg-secondary-subtle collapsed rounded-bottom-4 shadow-none border-bottom border-secondary fs-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSevenPrivacyPolicy" aria-expanded="false" aria-controls="collapseSevenPrivacyPolicy">
+                        Your rights as an affected person
                       </button>
                     </h2>
-                    <div id="collapseSixPrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
-                      <div class="accordion-body border-bottom border-secondary px-3 rounded-bottom-4">
+                    <div id="collapseSevenPrivacyPolicy" class="accordion-collapse collapse" data-bs-parent="#privacyPolicyAccordion">
+                      <div class="accordion-body bg-secondary-subtle border-bottom border-secondary px-3 rounded-bottom-4">
                         <div class="container-fluid px-0">
                           <div class="row g-3">
                             <div class="col-12">
                               <div class="text-center px-3 h-100">
-                                <h3>Ihre Rechte als Betroffener</h3>
-                                <p>Sie als Betroffener haben bezüglich Ihrer Daten, welche gespeichert sind grundsätzlich ein Recht auf:</p>
-                                <ul class="list-group list-group-flush mb-3">
-                                  <li class="list-group-item border-0">Auskunft</li>
-                                  <li class="list-group-item border-0">Löschung der Daten</li>
-                                  <li class="list-group-item border-0">Berichtigung der Daten</li>
-                                  <li class="list-group-item border-0">Übertragbarkeit der Daten</li>
-                                  <li class="list-group-item border-0">Widerruf und Widerspruch zur Datenverarbeitung</li>
-                                  <li class="list-group-item border-0">Einschränkung</li>
+                                <h3 class="h3-super-size">Your rights as an affected person</h3>
+                                <p>Under the General Data Protection Regulation (GDPR), you have the fundamental right to:</p>
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item border-0 bg-transparent">Information about the data stored about you</li>
+                                  <li class="list-group-item border-0 bg-transparent">Correction of inaccurate or incomplete data</li>
+                                  <li class="list-group-item border-0 bg-transparent">Deletion of your data, provided there is no legal obligation to retain it.</li>
+                                  <li class="list-group-item border-0 bg-transparent">Restriction of processing</li>
+                                  <li class="list-group-item border-0 bg-transparent">Objection to processing insofar as it is based on legitimate interest</li>
+                                  <li class="list-group-item border-0 bg-transparent">Data portability</li>
                                 </ul>
-                                <p>Wenn sie vermuten, dass im Zuge der Verarbeitung Ihrer Daten Verstöße gegen das Datenschutzrecht passiert sind, so haben Sie die Möglichkeit sich bei <a href="mailto:contact@nerdtech.one">contact@nerdtech.one</a> oder der Datenschutzbehörde zu beschweren.</p>
-                                <p class="mb-0">Rechtstext von Quelle: <a href="https://fairesrecht.at/kostenlos-datenschutzerklaerung-erstellen-generator.php" target="_blank">DSGVO Datenschutz Generator</a> in Kooperation mit <a href="https://kredit123.at/home" target="_blank">Online Kreditvergleich</a></p>
+                                <p class="mt-4">You can withdraw your consent for the map function at any time by deleting the data from this website in your browser. The lawfulness of the processing carried out until the withdrawal remains unaffected.</p>
+                                <p>If you believe that the processing of your data violates data protection law, you have the right to contact me at <a href="mailto:contact@nerdtech.one">contact@nerdtech.one</a> or to lodge a complaint with the competent data protection authority.</p>
                               </div>
                             </div>
                           </div>
@@ -705,18 +1160,18 @@
           </div>
         </div>
         <div class="modal-footer navbar-bg">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
   <script
-    src="./assets/resources/bootstrap.bundle.min.js">
+    src="./assets/js/bootstrap.bundle.min.js">
   </script>
 
   <script
-    src="./assets/resources/leaflet.min.js">
+    src="./assets/js/leaflet.min.js">
   </script>
 
   <script>
@@ -729,10 +1184,12 @@
 
     const bodyElement = document.body;
     const contentContainer = document.getElementById('contentContainer');
-    const configCard = document.getElementById('configCard');
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const csvTooltip = document.getElementById('csvTooltip');
+
+    const offcanvas = document.getElementById('offcanvas');
+    const bootstrapOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvas);
 
     //set the theme on load
     updateTheme(savedTheme, savedTheme === 'light', savedTheme === 'dark');
@@ -749,14 +1206,13 @@
     const visibleCount = document.getElementById("visibleCount");
     const totalCount = document.getElementById("totalCount");
     
-    const mobileHeader = document.getElementById("mobileHeader");
     const collapseIcon = document.getElementById("collapseIcon");
-    const cardBody = document.getElementById('filtersCardBody');
 
     const csvFiles = document.getElementById("csvFiles");
     const btnClearFilters = document.getElementById("btnClearFilters");
     const btnSaveMap = document.getElementById('btnSaveMap');
     const btnDownload = document.getElementById('btnDownload');
+    const btnOpenFilters = document.getElementById('btnOpenFilters');
 
     const dropdowns = document.querySelectorAll('.dropdown');
 
@@ -771,7 +1227,7 @@
     const headersTC = ['mcc', 'mnc', 'lac', 'cell_id', 'short_cell_id', 'rnc', 'psc', 'asu', 'dbm', 'ta', 'lat', 'lon', 'accuracy', 'speed', 'bearing', 'altitude', 'measured_at', 'net_type', 'neighboring', 'discovered_at', 'device', 'rsrp', 'rsrq', 'rssi', 'rssnr', 'cqi', 'rscp', 'csi_rsrp', 'csi_rsrq', 'csi_sinr', 'ss_rsrp', 'ss_rsrq', 'ss_sinr', 'cdma_dbm', 'cdma_ecio', 'evdo_dbm', 'evdo_ecio', 'evdo_snr', 'ec_no', 'arfcn']
     const headersTCOptimized = ['MCC', 'MNC', 'LAC', 'Cell', 'short_cell_id', 'rnc', 'PCI', 'asu', 'Signal', 'ta', 'Latitude', 'Longitude', 'Accuracy', 'speed', 'bearing', 'Altitude', 'Timestamp', 'Type', 'neighboring', 'discovered_at', 'device', 'rsrp', 'rsrq', 'rssi', 'rssnr', 'cqi', 'rscp', 'csi_rsrp', 'csi_rsrq', 'csi_sinr', 'ss_rsrp', 'ss_rsrq', 'ss_sinr', 'cdma_dbm', 'cdma_ecio', 'evdo_dbm', 'evdo_ecio', 'evdo_snr', 'ec_no', 'ARFCN']
     const headersCVM = ['Date', 'Capture Group ID', 'Latitude', 'Longitude', 'City', 'Region', 'Country', 'Postal Code', 'Provider', 'Carrier', 'Technology', 'Reported Network Type', 'PLMN', 'MCC', 'MNC', 'Roaming', 'Cell Type', 'Cell Status', 'Frequency (MHz)', 'Signal Strength (dBm)', 'RSRP', 'RSRQ', 'RSSI', 'SINR', 'CQI', 'ASU', 'Timing Advance', 'Global Cell ID', 'Site ID', 'Sector ID', 'Cell ID', 'Area Code', 'Radio Code', 'Device', 'OS Version']
-    const headersCVMOptimized = ['Timestamp', 'Capture_Group_ID', 'Latitude', 'Longitude', 'City', 'Region', 'Country', 'Postal_Code', 'Provider', 'Carrier', 'Type', 'Subtype', 'PLMN', 'MCC', 'MNC', 'Roaming', 'Cell_Type', 'Cell_Status', 'Frequency', 'Signal', 'RSRP', 'RSRQ', 'RSSI', 'SINR', 'CQI', 'ASU', 'Timing Advance', 'Global_Cell_ID', 'Site_ID', 'Sector_ID', 'Cell', 'LAC', 'Radio_Code', 'Device', 'OS_Version']
+    const headersCVMOptimized = ['Timestamp', 'Capture_Group_ID', 'Latitude', 'Longitude', 'City', 'Region', 'Country', 'Postal_Code', 'Provider', 'Carrier', 'Type', 'Subtype', 'PLMN', 'MCC', 'MNC', 'Roaming', 'Cell_Type', 'Cell_Status', 'Frequency', 'Signal', 'RSRP', 'RSRQ', 'RSSI', 'SINR', 'CQI', 'ASU', 'Timing Advance', 'Global_Cell_ID', 'Site_ID', 'Sector', 'Cell', 'LAC', 'Radio_Code', 'Device', 'OS_Version']
     const mapping = { 'LTE-LTE': 256, 'NR-NSA': 0, 'NR-SA': 16384 };
     const invalidValues = ["-1", "0", "1", "", "9223372036854775807", "000000"];
 
@@ -792,52 +1248,62 @@
       cell: ""
     };
 
-    let lastIsDesktop = window.innerWidth >= 768;
     let previousFiles = [];
+    let mapTileLayersEnabled = false;
     
     let eutraBands = [];
     let nrBands = [];
     let nrBandsSupport = [];
     let mapTemplate = "";
 
-    loadData("./assets/resources/EUTRA_operating_bands_frequencies_arfcn-numbers.json")
+    loadData("./assets/json/EUTRA_operating_bands_frequencies_arfcn-numbers.json")
       .then(data => { eutraBands = data || []; })
       .catch(console.error);
 
-    loadData("./assets/resources/NR_operating_bands_frequencies_duplex-types_arfcn-numbers.json")
+    loadData("./assets/json/NR_operating_bands_frequencies_duplex-types_arfcn-numbers.json")
       .then(data => { nrBands = data || []; })
       .catch(console.error);
 
-    loadData("./assets/resources/NR-ARFCN_parameters_for_the_global_frequency_raster.json")
+    loadData("./assets/json/NR-ARFCN_parameters_for_the_global_frequency_raster.json")
       .then(data => { nrBandsSupport = data || []; })
       .catch(console.error);
 
-    loadData("./assets/resources/map-template.html", 'text')
+    loadData("./assets/html/map-template.html", 'text')
       .then(data => { mapTemplate = data || ""; })
       .catch(console.error);
+      
+    function createMapInstance(containerId) {
+      const mapInstance = L.map(containerId, {maxZoom: 17, zoomControl: false}).setView([47.6965, 13.3457], 7);
+      L.control.zoom({position: "bottomleft"}).addTo(mapInstance);
+      return mapInstance;
+    }
 
-    function initMap() {
-      map = L.map("map",{zoomControl: false}).setView([47.6965, 13.3457], 7);
+    function addMapTileLayers() {
+      if (mapTileLayersEnabled || !map) {
+        return;
+      }
 
-      const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-      {
-          minZoom: 7,
-          maxZoom: 21,
-          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      document.getElementById("filterColumn").classList.remove('d-none');
+      document.getElementById("mapColumn").classList.remove('d-none');
+      document.getElementById("consentColumn").classList.add('d-none');
+
+      const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 5,
+        maxZoom: 17,
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
-      {
-          minZoom: 7,
-          maxZoom: 21,
-          attribution: '© <a href="https://www.esri.com/en-us/home">Esri</a>, <a href="https://www.earthstar.com/">Earthstar Geographics</a>, <a href="https://www.maxar.com/">Maxar</a>, <a href="https://www.usda.gov/">USDA</a>, <a href="https://www.usgs.gov/">USGS</a>, <a href="https://www.aex.com/">AEX</a>, <a href="https://www.getmapping.com/">Getmapping</a>, <a href="https://www.aerogrid.com/">Aerogrid</a>, <a href="https://www.ign.fr/">IGN</a>, <a href="https://www.igp.pt/">IGP</a>, and the <a href="https://www.gisusercommunity.com/">GIS User Community</a>'
+      const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        minZoom: 5,
+        maxZoom: 17,
+        attribution: '© <a href="https://www.esri.com/en-us/home">Esri</a>, <a href="https://www.earthstar.com/">Earthstar Geographics</a>, <a href="https://www.maxar.com/">Maxar</a>, <a href="https://www.usda.gov/">USDA</a>, <a href="https://www.usgs.gov/">USGS</a>, <a href="https://www.aex.com/">AEX</a>, <a href="https://www.getmapping.com/">Getmapping</a>, <a href="https://www.aerogrid.com/">Aerogrid</a>, <a href="https://www.ign.fr/">IGN</a>, <a href="https://www.igp.pt/">IGP</a>, and the <a href="https://www.gisusercommunity.com/">GIS User Community</a>'
       });
 
       const baseMaps = {
-          "OpenStreetMap": osm,
-          "Esri Satellite": satellite
-      };
-
+        "OpenStreetMap": osm,
+        "Esri Satellite": satellite
+      };      
+      
       const overlayMaps = {
         ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #008000;"></span> -85 dBm and above</span>']: L.layerGroup(),
         ['<span class="d-block cursor-default"><span class="legend-color-block align-middle border border-secondary-subtle d-inline-block" style="background-color: #90EE90;"></span> between -86 dBm and -100 dBm</span>']: L.layerGroup(),
@@ -858,7 +1324,15 @@
         label.parentNode.replaceChild(labelClone.querySelector('.d-block.cursor-default'), label);
       });
 
+      mapTileLayersEnabled = true;
+      map.invalidateSize();
       getLocation();
+    }
+
+    function initMap() {
+      if (!map) {
+        map = createMapInstance("map");
+      }
     }
 
     function setUserLocation(position)
@@ -957,6 +1431,8 @@
           //create a new NB entry by first convert and check if the Cell-ID is a finite number and then calculate the NB by converting the Cell-ID to a number, divide it by the divisor, and turning it into a while number
           row.NB = Number.isFinite(Number(row.Cell)) && divisor !== 0 ? String(Math.trunc(Number(row.Cell) / divisor)) : "Unknown";
 
+          row.Sector = Number.isFinite(Number(row.Cell)) && divisor !== 0 ? String(((Number(row.Cell) / divisor) - Number(row.NB)) * divisor) : "Unknown";
+
           //create a new Band entry with the getBandNumber function
           row.Band = getBandNumber(row.ARFCN, row.Type);
           //create a new Frequency entry with the calculateFrequency function 
@@ -1000,6 +1476,10 @@
           row.PCI = (!invalidValues.includes(row.PCI)) ? row.PCI : "Unknown";
           //update NB entry if value is invalid
           row.NB = (!invalidValues.includes(row.NB)) ? row.NB : "Unknown";
+
+          const divisor = Math.trunc(Number(row.Cell) / Number(row.NB));
+          
+          row.Sector = Number.isFinite(Number(row.Cell)) && Number.isFinite(Number(row.NB)) ? String(((Number(row.Cell) / divisor) - Number(row.NB)) * divisor) : "Unknown";
           //update ARFCN entry if value is invalid
           row.ARFCN = (!invalidValues.includes(row.ARFCN)) ? row.ARFCN : "Unknown";
           //update Altitude entry if value is invalid
@@ -1088,7 +1568,9 @@
           const divisor = mapping[row.TypeSubtype] ?? 1;
           //create a new NB entry by first convert and check if the Cell-ID is a finite number and then calculate the NB by converting the Cell-ID to a number, divide it by the divisor, and turning it into a while number
           row.NB = Number.isFinite(Number(row.Cell)) && divisor !== 0 ? String(Math.trunc(Number(row.Cell) / divisor)) : "Unknown";
-          
+
+          row.Sector = Number.isFinite(Number(row.Cell)) && divisor !== 0 ? String(((Number(row.Cell) / divisor) - Number(row.NB)) * divisor) : "Unknown";
+
           //create a new Band entry with the getBandNumber function
           row.Band = getBandNumber(row.ARFCN, row.Type);
           //create a new Frequency entry with the calculateFrequency function 
@@ -1138,8 +1620,8 @@
           row.PCI = (!invalidValues.includes(row.PCI)) ? row.PCI : "Unknown";
           //update ARFCN entry if value is invalid
           row.ARFCN = (!invalidValues.includes(row.ARFCN)) ? row.ARFCN : "Unknown";
-          //update Sector_ID entry if value is invalid
-          row.Sector_ID = (!invalidValues.includes(row.Sector_ID)) ? row.Sector_ID : "Unknown";
+          //update Sector entry if value is invalid
+          row.Sector = (!invalidValues.includes(row.Sector)) ? row.Sector : "Unknown";
           
           //get the divisor for the calculation of the NB based on TypeSubtype
           const divisor = mapping[row.TypeSubtype] ?? 1;
@@ -1403,9 +1885,9 @@
       const noResultsEntry = document.getElementById(idBase + "NoResults");
       const btn = document.getElementById(idBase + "Btn");
 
-      //with a.dropdown-item[data-value] search and NoResults are excluded from the query 
-      ul.querySelectorAll('li a.dropdown-item[data-value]').forEach(a => {
-        if (a.dataset.value !== "") a.parentElement.remove();
+      //with button.dropdown-item[data-value] search and NoResults are excluded from the query 
+      ul.querySelectorAll('li button.dropdown-item[data-value]').forEach(btn => {
+        if (btn.dataset.value !== "") btn.parentElement.remove();
       });
 
       //create a sorted array based on the current set
@@ -1422,35 +1904,32 @@
       sortedFilters.forEach(sortedFilter => {
         //create a new list element
         const li = document.createElement('li');
-        //create a new link element 
-        const a = document.createElement('a');
-        //configure the dropdown-item class for the new link element 
-        a.className = 'dropdown-item';
-        a.href = '#';
-        a.classList.add("d-block")
-        //configure value and text for the link element
-        a.dataset.value = sortedFilter;
-        a.textContent = sortedFilter;
-        //add the link element to the list element
-        li.appendChild(a);
+        //create a new button element 
+        const btn = document.createElement('button');
+        //configure the dropdown-item class for the new button element 
+        btn.className = 'dropdown-item';
+        btn.role = 'menuitem';
+        btn.classList.add("d-block")
+        //configure value and text for the button element
+        btn.dataset.value = sortedFilter;
+        btn.textContent = sortedFilter;
+        //add the button element to the list element
+        li.appendChild(btn);
         //add the list element to the list before the no result entry
         ul.insertBefore(li, noResultsEntry);
       });
 
       //remove previously attached click handlers on dropdown items
-      ul.querySelectorAll('a.dropdown-item').forEach(a => {
-        if (a._customClickHandler) {
-          a.removeEventListener('click', a._customClickHandler);
+      ul.querySelectorAll('button.dropdown-item').forEach(btn => {
+        if (btn) {
+          btn.removeEventListener('click', btn._customClickHandler);
         }
       });
 
       //iterate over the just created list elements
-      ul.querySelectorAll('a.dropdown-item').forEach(a => {
-        //create a custom event handler for the current link element
-        a._customClickHandler = function(e) {
-          //prevent navigation to the link 
-          e.preventDefault();
-
+      ul.querySelectorAll('button.dropdown-item').forEach(btn => {
+        //create a custom event handler for the current button element
+        btn._customClickHandler = function(e) {
           //get the value from the selected link element
           const val = this.dataset.value;
           //save the base id in the click handler
@@ -1509,7 +1988,7 @@
           applyFilters();
         };
         //register the event handler
-        a.addEventListener('click', a._customClickHandler);
+        btn.addEventListener('click', btn._customClickHandler);
       });
 
       //clear the search box
@@ -1555,7 +2034,10 @@
             <th scope="row">Cell ID</th>   <td>${p.Cell}</td>
           </tr>
           <tr>
-            <th scope="row">${p.PCI ? "PCI" : p.Sector_ID ? "Sector ID" : "Unknown"}</th>  <td>${p.PCI ? p.PCI : p.Sector_ID ? p.Sector_ID : "Unknown"}</td>
+            <th scope="row">Cell</th>   <td>${p.Sector}</td>
+          </tr>
+          <tr>
+            <th scope="row">${p.PCI ? "PCI" : p.Provider ? "MNO" : "Unknown"}</th>  <td>${p.PCI ? p.PCI : p.Provider? p.Provider : "Unknown"}</td>
           </tr>
           <tr>
             <th scope="row">Frequency</th> <td>${p.Frequency} MHz</td>
@@ -1589,22 +2071,22 @@
             <th scope="row">Source</th>    <td>${p.Source}</td>
           </tr>
           <tr>
-            <th colspan="2"><a href="https://www.google.com/maps/search/${p.Latitude},+${p.Longitude}" target="_blank">View on Google Maps</a></th>
+            <th colspan="2"><a href="https://www.google.com/maps/search/${p.Latitude},+${p.Longitude}" target="_blank" rel="noopener noreferrer">View on Google Maps</a></th>
           </tr>
           <tr>
-            <th colspan="2"><a href="https://earth.google.com/web/@${p.Latitude},${p.Longitude},10000d" target="_blank">View on Google Earth</a></th>
+            <th colspan="2"><a href="https://earth.google.com/web/@${p.Latitude},${p.Longitude},10000d" target="_blank" rel="noopener noreferrer">View on Google Earth</a></th>
           </tr>
           <tr>
-            <th colspan="2"><a href="https://maps.apple.com/frame?center=${p.Latitude}%2C${p.Longitude}" target="_blank">View on Apple Maps</a></th>
+            <th colspan="2"><a href="https://maps.apple.com/frame?center=${p.Latitude}%2C${p.Longitude}" target="_blank" rel="noopener noreferrer">View on Apple Maps</a></th>
           </tr>
           <tr>
-            <th colspan="2"><a href="https://www.openstreetmap.org/#map=19/${p.Latitude}/${p.Longitude}" target="_blank">View on OpenStreetMap</a></th>
+            <th colspan="2"><a href="https://www.openstreetmap.org/#map=19/${p.Latitude}/${p.Longitude}" target="_blank" rel="noopener noreferrer">View on OpenStreetMap</a></th>
           </tr>
           <tr>
-            <th colspan="2"><a href="https://livingatlas.arcgis.com/wayback/#mapCenter=${p.Longitude}%2C${p.Latitude}%2C20" target="_blank">View on World Imagery Wayback</a></th>
+            <th colspan="2"><a href="https://livingatlas.arcgis.com/wayback/#mapCenter=${p.Longitude}%2C${p.Latitude}%2C20" target="_blank" rel="noopener noreferrer">View on World Imagery Wayback</a></th>
           </tr>
           <tr class="rounded-bottom-4 border-bottom-0">
-            <th colspan="2" class="rounded-bottom-4 border-bottom-0"><a href="https://www.cellmapper.net/map?MCC=${p.MCC}&MNC=${p.MNC}&type=${p.Type}&latitude=${p.Latitude}&longitude=${p.Longitude}&zoom=15.3" target="_blank">View on CellMapper</a></th>
+            <th colspan="2" class="rounded-bottom-4 border-bottom-0"><a href="https://www.cellmapper.net/map?MCC=${p.MCC}&MNC=${p.MNC}&type=${p.Type}&latitude=${p.Latitude}&longitude=${p.Longitude}&zoom=15.3" target="_blank" rel="noopener noreferrer">View on CellMapper</a></th>
           </tr>
         </table>`;
 
@@ -1648,22 +2130,22 @@
         const q = this.value.trim().toLowerCase();
         let hasResults = false;
         //iterate over all list elements of the dropdown
-        ul.querySelectorAll('a.dropdown-item').forEach(a => {
+        ul.querySelectorAll('button.dropdown-item').forEach(btn => {
           //always keep the all entry visible
-          if (a.dataset.value === "") {
+          if (btn.dataset.value === "") {
             //skip the rest of the run
             return;
           }
           //get the value of the current dropdown list element in lower case
-          const txt = a.textContent.toLowerCase();
+          const txt = btn.textContent.toLowerCase();
           //check whether the value of the current dropdown list element includes the search value
           if (txt.includes(q)) {
             //set matching dropdown list elements to visible
-            a.classList.replace('d-none', 'd-block');
+            btn.classList.replace('d-none', 'd-block');
             hasResults = true;
           } else {
             //set not matching dropdown list elements to invisible
-            a.classList.replace('d-block', 'd-none');
+            btn.classList.replace('d-block', 'd-none');
           }
         });
         //when there are no results set the no results item to visible
@@ -1703,7 +2185,7 @@
         //when the enter key is pressed
         if (e.key === 'Enter') {
           //get all visible dropdown items with a valid value
-          const visibleItems = Array.from(ul.querySelectorAll('a.dropdown-item[data-value]')).filter(a => a.dataset.value !== "" && a.classList.contains('d-block'));
+          const visibleItems = Array.from(ul.querySelectorAll('button.dropdown-item[data-value]')).filter(btn => btn.dataset.value !== "" && btn.classList.contains('d-block'));
           //when there is only one valid visible dropdown item
           if (visibleItems.length === 1) {
             //click on the sole visible item to select it
@@ -1816,14 +2298,6 @@
         resetDropdowns();
         updateFilterOptions();
         applyFilters();
-
-        //automatically hide the data and filters section on mobile after the file selection
-        //check if which is small enough
-        if (window.innerWidth < 768) {
-          //collapse the card body programmatically
-          mobileHeader.click();
-          lastIsDesktop = false;
-        }
       } catch (error) {
         console.error("Error reading files:", error);
       }
@@ -1910,33 +2384,13 @@
         //empty the search box text - necessary because if there is text in the search box with no match this clears the the no matches found item from the list 
         document.getElementById('filter' + k + 'Search').value = '';
         //iterate over the dropdown items
-        //with a.dropdown-item[data-value] search and NoResults are excluded from the query 
-        document.getElementById('filter' + k + 'UL').querySelectorAll('li a.dropdown-item[data-value]').forEach(a => {
+        //with button.dropdown-item[data-value] search and NoResults are excluded from the query 
+        document.getElementById('filter' + k + 'UL').querySelectorAll('li button.dropdown-item[data-value]').forEach(btn => {
           //only remove a dropdown item if it isn't the All item
-          if (a.dataset.value !== "") a.parentElement.remove();
+          if (btn.dataset.value !== "") btn.parentElement.remove();
         });
       });
     }
-
-    mobileHeader.addEventListener('click', () => {
-      //when the mobile card body is now visible 
-      if (mobileHeader.getAttribute('aria-expanded') == "true") {
-        //indicate that the card is now expanded with the down arrow
-        collapseIcon.classList.replace('bi-chevron-down', 'bi-chevron-up')
-        //show the border of the mobile card header
-        mobileHeader.classList.remove('border-bottom-0')
-        //bottom edge of the mobile card header should be straight
-        mobileHeader.classList.remove('rounded-bottom-4')
-      //when the mobile card body is now invisible 
-      } else {
-        //indicate that the card is now collapsed with the up arrow
-        collapseIcon.classList.replace('bi-chevron-up', 'bi-chevron-down')
-        //hide the border of the mobile card header
-        mobileHeader.classList.add('border-bottom-0')
-        //bottom edge of the mobile card header should be rounded
-        mobileHeader.classList.add('rounded-bottom-4')
-      }
-    });
 
     // Theme toggle event listener
     themeToggle.addEventListener('click', () => {
@@ -1948,62 +2402,46 @@
       updateTheme(newTheme, newTheme === 'light', newTheme === 'dark');
     });
 
+    btnOpenFilters.addEventListener('click', () => {
+      bootstrapOffcanvas.show();
+    })
+
     csvTooltip.addEventListener('click', function (event) {
       event.preventDefault();
     });
 
-    mapEl.addEventListener('click', () => {
-      if (cardBody.classList.contains('show') && window.innerWidth < 768) {
-        //collapse the card body programmatically
-        mobileHeader.click();
-      }
+    document.getElementById("btnConsent").addEventListener('click', () => {
+      localStorage.setItem('consentGivenV1', "true");
+      localStorage.setItem('consentTimeV1', String(Date.now()));        
+      addMapTileLayers();
     });
 
     function updateTheme(newTheme, isLight, isDark) {
+      themeToggle.ariaLabel = newTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
       metaThemeColor.setAttribute('content', newTheme === 'light' ? '#CED4DA' : '#212529'); 
       bodyElement.setAttribute('data-bs-theme', newTheme);
       bodyElement.classList.toggle('bg-dark-subtle', isLight);
       contentContainer.classList.toggle('bg-light-subtle', isLight);
       contentContainer.classList.toggle('bg-primary-subtle', isDark);
-      configCard.classList.toggle('bg-light', isLight);
-      configCard.classList.toggle('bg-secondary-subtle', isDark);
+      offcanvas.classList.toggle('bg-light', isLight);
+      offcanvas.classList.toggle('bg-secondary-subtle', isDark);
       themeIcon.classList.toggle('bi-sun-fill', isLight);
       themeIcon.classList.toggle('bi-moon-fill', isDark);
+    }
+
+    function hasValidConsent() {
+      const consentGiven = localStorage.getItem('consentGivenV1') === "true";
+      const consentGivenTime = Number(localStorage.getItem('consentTimeV1') || 0);
+      return consentGiven && consentGivenTime > Date.now() - 2592000000;
     }
 
     //initialize the map once the DOM is ready
     window.addEventListener("load", () => {
       initMap();
-    });
-
-    //resizing event listener 
-    window.addEventListener("resize", () => {
-      //get the real size of the window
-      //this helps to prevent some erroneous size reports
-      rect = document.documentElement.getBoundingClientRect();
-      realSize = { width: rect.width, height: rect.height };
-      //create bool whether the width is 768px or above or not
-      const isDesktop = realSize.width >= 768;
-      //only execute if the current status does not match the last recorded status
-      //this is to prevent hiding the card body when resizing with width below 768px 
-      if (isDesktop !== lastIsDesktop) {
-        //update the previous status variable
-        lastIsDesktop = isDesktop;
-        //when width is 768px or above
-        if (isDesktop) {
-          //show the card body
-          cardBody.classList.add("show")
-        //when width is below 768px
-        } else {
-          //hide the card body
-          cardBody.classList.remove("show")
-          //update the mobile card header arrow
-          collapseIcon.classList.replace('bi-chevron-up', 'bi-chevron-down')
-
-          //update bottom border and shape of the mobile card header
-          mobileHeader.classList.add('border-bottom-0')
-          mobileHeader.classList.add('rounded-bottom-4')
-        }
+      if (hasValidConsent()) {
+        addMapTileLayers();
+      } else {
+        document.getElementById("consentColumn").classList.remove("d-none");
       }
     });
   </script>
