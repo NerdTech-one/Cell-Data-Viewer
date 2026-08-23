@@ -4,30 +4,30 @@ This web tool allows anyone to make more out of the CSV files collected by the C
 
 It is currently available at: [https://cdv.nerdtech.one](https://cdv.nerdtech.one)
 
-![Cell Data Viewer main screenshot](/assets/documentation/imgs/Screenshot-Main.png)
+![Cell Data Viewer main screenshot](/assets/imgs/Screenshot-Main.png)
 
 This web tool lets you view, filter and export the data points you have collected with the CellMapper, G-MoN Pro and Tower Collector applications on your Android device.
 
 ### Filters
 You can filter hundreds or thousands of data points to be able to focus only on what you actually care about. Available filters include PLMN, network type (LTE and NR), Band, Frequency, (e/g)NodeB (site ID) and cell ID. You can apply filters at once or only a few depending on what you want. Additionally, you can search the filter options to quickly find what you are looking for.
 
-![Cell Data Viewer filters screenshot](/assets/documentation/imgs/Screenshot-Filters.png)
+![Cell Data Viewer filters screenshot](/assets/imgs/Screenshot-Filters.png)
 
 ### Visualization
 You can visualize the data points that you have collected with the CellMapper and G-MoN Pro applications on a map. You can see each collected data point in detail with information rich tooltips and popups.
 
-![Cell Data Viewer popup screenshot](/assets/documentation/imgs/Screenshot-Popup.png)
+![Cell Data Viewer popup screenshot](/assets/imgs/Screenshot-Popup.png)
 
 ### Export
 You like what you see on the map. Then you can go ahead and export the map as an HTML file to preserve the currently displayed data points to look at them again later or for sharing with others.
 
-![Cell Data Viewer export screenshot](/assets/documentation/imgs/Screenshot-Export.png)
+![Cell Data Viewer export screenshot](/assets/imgs/Screenshot-Export.png)
 
 ### Local in browser processing
 All processing of the data happens on your device in the browser. The CSV files you select to view, filter and export are not uploaded to any server. The location permission is optional and only used to center the map based on your location. Your location is not shared with anyone!
 
 ## FAQ
-Some frequently asked questions and answers about the Cell Data Viewer project can be found in the Wiki section of this repository: [Cell Data Viewer Wiki](https://github.com/NerdTech-one/Cell-Data-Viewer/wiki)
+Some frequently asked questions and answers about the Cell Data Viewer toll can be found via the help button in the tool.
 
 ## Third-party software and services
 The following third-party software and services are used in this project:
@@ -36,8 +36,7 @@ The following third-party software and services are used in this project:
 - [OpenStreetMap](https://www.openstreetmap.org/about) from the [OpenStreetMap Foundation](https://osmfoundation.org/) and contributors
 - Satellite images by [ESRI](https://www.esri.com/en-us/home) and partners
 - my own [arfcn-to-frequency-files](https://github.com/NerdTech-one/arfcn-to-frequency-files) repository based on ETSI and 3GPP documents
-- [jsDelivr](https://www.jsdelivr.com/) CDN service for external resources from Volentio JSD Limited
-- [GitHub Pages](https://docs.github.com/en/pages) for the hosting of the web tool and directly associated resources from GitHub Inc
+- [Easyname GmbH](https://www.easyname.at/) for the hosting of the web tool and directly associated resources
 
 ## Disclaimers
 CellMapper and CellMapper logo are trademarks of CellMapper Services Limited  
